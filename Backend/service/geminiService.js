@@ -7,6 +7,12 @@ const SYSTEM_PROMPT={
   content:"Behave like a programming teaher and your answer should accurate and must be simple and not too lenthy"
 }
 
+
+const TITLE_PROMPT={
+  role:"system",
+  content:"generate a title for given below content of the user no more than 4 words to make it heading of the conversation."
+}
+
 const createMessagesString = (messages) => {
   const messageList = [SYSTEM_PROMPT, ...messages];
   return messageList.map((message) => 
@@ -35,4 +41,14 @@ const generateContent = async (prompt, modelName = "gemini-1.5-flash",messages=[
 };
 
 
-module.exports = { generateContent };
+const generateTitle=async(prompt,modelName)=>{
+
+   const model = genAI.getGenerativeModel({ model: modelName });
+    
+  const titlePrompt=createMessagesString([TITLE_PROMPT,{role:"user",content:prompt}]);
+  const title=await model.generateContent(titlePrompt);
+
+   return title.response.text();
+}
+
+module.exports = { generateContent ,generateTitle};

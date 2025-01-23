@@ -3,19 +3,22 @@ const conversation = require('../model/conversation');
 const {generateContent} = require('../service/geminiService');
 const Conversation = require('../model/conversation');
 
+const {generateTitle} = require('../service/geminiService');
 
 exports.newConversation=async(req,res)=>{
 
-    const {prompt,model}=req.body;   
-
-    try{      
+    const {prompt,model}=req.body; 
     
-      console.log("Prompt inside controller:", prompt);
+    
+
+    try{
+      const finaltitle=await generateTitle(prompt,model);
+
       const result = await generateContent(prompt,model);
-      console.log("Result inside controller:", result);
+      
 
       const conversation1=new Conversation ({  
-        title:prompt,
+        title:finaltitle,
         model:model,
         messages:[{
           role:"user",
@@ -28,7 +31,6 @@ exports.newConversation=async(req,res)=>{
       });
       await conversation1.save();
 
-      console.log("Conversation1:",conversation1);
       res.json({conversation1})
       
     }
@@ -43,8 +45,7 @@ exports.newConversation=async(req,res)=>{
 exports.newMessage=async(req,res,next)=>{
   const id=req.params.id;
   const {prompt}=req.body;
-  console.log("ID inside controller:", id);
-
+ 
   const conversations=await conversation.findById(id);
 
   if(!conversations){
@@ -52,6 +53,7 @@ exports.newMessage=async(req,res,next)=>{
   } 
   
   const content=await generateContent(prompt,conversations.model,conversations.messages);
+  
   
   conversations.messages.push({
     role:"user",
@@ -64,4 +66,23 @@ exports.newMessage=async(req,res,next)=>{
   await conversations.save();
   res.json({conversations});
   next();
+}
+
+
+
+exports.getConversation=async(req,res)=>{
+  const conversations=await conversation.find();
+
+  if(!conversations){
+      return res.status(404).json({message:"Conversation not found"});
+  }
+  res.json({conversations});
+};
+
+
+exports.deleteConversation=async(req,res)=>{
+  const id=req.params.id;
+  
+  await conversation.findByIdAndDelete(id);
+  res.status(204).json({message:"Conversation deleted successfully"});  
 }

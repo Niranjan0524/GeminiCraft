@@ -1,10 +1,7 @@
 
 function App() {
   return (
-    <center>
-     
-   
-    </center>
+    <h1>welcome To GeminiCraft</h1>
   );
 }
 
