@@ -8,10 +8,12 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
-
+const mongoose = require("mongoose");
 const app = express();
 
-// const cors = require("cors");
+
+
+const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@xdb.mjwzy.mongodb.net/${process.env.MONGO_DB_DATABASE}`;
 
 app.use(
   cors({
@@ -42,10 +44,16 @@ app.use(errorHandlers);
 
 const port = process.env.PORT || 3000;
 
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+mongoose
+  .connect(url)
+  .then(() => {
+    console.log("Connected to the database");
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
 });
- 
 
 
