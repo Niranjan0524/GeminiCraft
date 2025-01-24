@@ -7,8 +7,7 @@ const {generateTitle} = require('../service/geminiService');
 
 exports.newConversation=async(req,res)=>{
 
-    const {prompt,model}=req.body; 
-    
+    const {prompt,model}=req.body;    
     
 
     try{
