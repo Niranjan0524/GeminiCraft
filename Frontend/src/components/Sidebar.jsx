@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   PlusIcon, 
@@ -11,13 +11,34 @@ import {
 
 function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  
-  // Dummy data for conversation history
-  const conversations = [
-    { id: 1, title: "React Components Discussion" },
-    { id: 2, title: "Tailwind CSS Styling" },
-    { id: 3, title: "API Integration Help" },
-  ];
+  const [conversations, setConversations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:3000/api/conversation');
+        const data = await response.json();
+
+        // Access the conversations array from the data object
+        setConversations(Array.isArray(data.conversations) ? data.conversations : []);
+      } catch (error) {
+        console.error("Error loading conversations:", error);
+        setConversations([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchConversations();
+  }, []); // Empty dependency array so it only runs once on mount
+
+  // const conversations = [
+  //   { id: 1, title: "React Components Discussion" },
+  //   { id: 2, title: "Tailwind CSS Styling" },
+  //   { id: 3, title: "API Integration Help" },
+  // ];
 
   return (
     <div className={`bg-gray-900 text-white h-screen ${isCollapsed ? 'w-16' : 'w-64'} 
@@ -52,19 +73,25 @@ function Sidebar() {
           ${isCollapsed ? 'hidden' : 'block'}`}>
           Recent Conversations
         </h2>
-        {conversations.map((chat) => (
-          <Link
-            key={chat.id}
-            to={`/conversation/${chat.id}`}
-            className="flex items-center gap-2 px-2 py-3 rounded-lg hover:bg-gray-800 
-              transition-colors duration-200 mb-1"
-          >
-            <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400" />
-            {!isCollapsed && (
-              <span className="truncate">{chat.title}</span>
-            )}
-          </Link>
-        ))}
+        {isLoading ? (
+          <div className="text-gray-400 text-sm px-2">Loading...</div>
+        ) : conversations.length > 0 ? (
+          conversations.map((chat) => (
+            <Link
+              key={chat._id}
+              to={`/conversation/${chat._id}`}
+              className="flex items-center gap-2 px-2 py-3 rounded-lg hover:bg-gray-800 
+                transition-colors duration-200 mb-1"
+            >
+              <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400" />
+              {!isCollapsed && (
+                <span className="truncate">{chat.title}</span>
+              )}
+            </Link>
+          ))
+        ) : (
+          <div className="text-gray-400 text-sm px-2">No conversations yet</div>
+        )}
       </div>
 
       {/* Bottom Actions */}
