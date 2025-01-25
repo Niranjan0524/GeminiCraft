@@ -10,7 +10,9 @@ import {
 } from '@heroicons/react/24/outline';
 import { ChatContext } from '../store/chatContext';
 import { useContext } from 'react';
-
+import TitleComponent from './TitleComponent';
+import { MdDelete } from "react-icons/md";
+import Notification from './Notification';
 
 function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -19,6 +21,35 @@ function Sidebar() {
 
 
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
+
+  
+  const [notifaction, setNotification] = useState("");
+  const showNotification = () => {
+    setNotification(notifaction);
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  };
+
+
+  const handleDelete = () => {
+    console.log("Delete");
+    showNotification("Chat Deleted");
+    // fetch(`http://localhost:3000/api/conversation/${currentChat._id}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     deleteChat(currentChat._id);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error deleting chat:", error);
+    //   });
+  };
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -44,7 +75,7 @@ function Sidebar() {
   return (
     <div
       className={`bg-gray-900 text-gray-100 h-screen ${
-        isCollapsed ? "w-16" : "w-100"
+        isCollapsed ? "w-16" : "w-120"
       } 
       transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
     >
@@ -92,15 +123,18 @@ function Sidebar() {
           <div className="text-gray-400 text-sm px-2">Loading...</div>
         ) : chats.length > 0 ? (
           chats.map((chat) => (
-            <Link
-              key={chat._id}
-              to={`/conversation/${chat._id}`}
-              className="flex items-center gap-2 px-2 py-3 rounded-lg hover:bg-gradient-to-r 
-              hover:from-gray-700 hover:to-gray-600 transition-colors duration-200 mb-1"
-            >
-              <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400" />
-              {!isCollapsed && <span className="truncate">{chat.title}</span>}
-            </Link>
+            <div className="flex items-center">
+              <Link
+                key={chat._id}
+                to={`/conversation/${chat._id}`}
+                className="flex items-center gap-2 px-2 py-3 rounded-lg hover:bg-gradient-to-r 
+              hover:from-gray-700 hover:to-gray-600 transition-colors duration-200 mb-1 flex-grow"
+              >
+                <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400" />
+                {!isCollapsed && <TitleComponent title={chat.title} />}
+              </Link>
+              <MdDelete className="ml-auto cursor-pointer hover:text-gray-200 hover:scale-150 transition-transform duration-200" onClick={handleDelete} />
+            </div>
           ))
         ) : (
           <div className="text-gray-400 text-sm px-2">No conversations yet</div>
