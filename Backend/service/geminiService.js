@@ -2,10 +2,11 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const SYSTEM_PROMPT={
-  role:"system",
-  content:"Behave like a pro and your answer should accurate and must be simple and not too lenthy"
-}
+const SYSTEM_PROMPT = {
+  role: "system",
+  content:
+    "Behave like a pro and your answer should accurate and must be simple and not too lenthy",
+};
 
 
 const TITLE_PROMPT={

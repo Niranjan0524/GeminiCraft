@@ -24,9 +24,10 @@ const Chat = () => {
       setCurrentChat({});
       setMessages([]);
     }
-  },[id]);
+  },[id,chats]);
 
   const handleSend = () => {
+    if(input.trim()==="") return;
     setInput(input.trim());
     setInput("");
     if(messages.length===0){
