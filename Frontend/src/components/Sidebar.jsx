@@ -8,11 +8,17 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/24/outline';
+import { ChatContext } from '../store/chatContext';
+import { useContext } from 'react';
+
 
 function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+
+  const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -21,8 +27,9 @@ function Sidebar() {
         const response = await fetch('http://localhost:3000/api/conversation');
         const data = await response.json();
 
-        // Access the conversations array from the data object
-        setConversations(Array.isArray(data.conversations) ? data.conversations : []);
+        // setConversations(Array.isArray(data.conversations) ? data.conversations : []);
+        addAllChats(data.conversations);    
+
       } catch (error) {
         console.error("Error loading conversations:", error);
         setConversations([]);
@@ -83,8 +90,8 @@ function Sidebar() {
         </h2>
         {isLoading ? (
           <div className="text-gray-400 text-sm px-2">Loading...</div>
-        ) : conversations.length > 0 ? (
-          conversations.map((chat) => (
+        ) : chats.length > 0 ? (
+          chats.map((chat) => (
             <Link
               key={chat._id}
               to={`/conversation/${chat._id}`}

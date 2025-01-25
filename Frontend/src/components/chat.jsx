@@ -1,23 +1,86 @@
 import { useState } from "react";
 import { MdOutlineSend } from "react-icons/md";
+import { ChatContext } from "../store/chatContext";
+import { useContext } from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
-  const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, { role: "user", content: input }]);
-      setInput("");
-      // Simulate a response from the bot
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { role: "assistant", content: "This is a response from the bot." },
-        ]);
-      }, 1000);
+  const {chats,addChat,updateChat}=useContext(ChatContext);
+  const [currentChat,setCurrentChat]=useState({});
+  
+  const {id}=useParams();
+
+  useEffect(()=>{
+    if(id){
+      const chat=chats.find(chat=>chat._id===id);
+      setCurrentChat(chat);
+      setMessages(chat.messages);
     }
-  };
+    else{
+      setCurrentChat({});
+      setMessages([]);
+    }
+  },[id]);
+
+  const handleSend = () => {
+    setInput(input.trim());
+    setInput("");
+    if(messages.length===0){
+      fetch("http://localhost:3000/api/conversation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: input,
+          model: "gemini-1.5-flash",
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          addChat(data.conversation1);
+          setCurrentChat(data.conversation1);
+
+          setMessages(data.conversation1.messages);
+        })
+        .catch((error) => {
+          console.error("Error sending message:", error);
+        })
+        .finally(() => {
+          setInput("");
+        });
+  }
+  else{
+
+    fetch(`http://localhost:3000/api/conversation/${currentChat._id}`, {
+      method: "PUT",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: input
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setMessages(data.conversations.messages);
+        setCurrentContent(data.content);
+      })
+      .catch((error) => {
+        console.error("Error sending message:", error);
+      })
+      .finally(() => {  
+        setInput("");
+      });
+
+  }
+
+};
 
 return (
   <div className="flex flex-col   h-screen bg-gray-900 text-white font-mono items-center justify-center">

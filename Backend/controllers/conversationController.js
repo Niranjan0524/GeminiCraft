@@ -63,8 +63,7 @@ exports.newMessage=async(req,res,next)=>{
   })
 
   await conversations.save();
-  res.json({conversations});
-  next();
+  res.json({conversations, content}); 
 }
 
 
