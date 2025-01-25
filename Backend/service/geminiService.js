@@ -4,7 +4,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const SYSTEM_PROMPT={
   role:"system",
-  content:"Behave like a programming teaher and your answer should accurate and must be simple and not too lenthy"
+  content:"Behave like a pro and your answer should accurate and must be simple and not too lenthy"
 }
 
 
