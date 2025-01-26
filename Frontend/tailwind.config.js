@@ -4,6 +4,16 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require("tailwind-scrollbar"),
+    // Optionally, if you want to include hover and rounded options:
+    require("tailwind-scrollbar")({ nocompatible: true }),
+  ],
+  compilerOptions: {
+    baseUrl: ".",
+    paths: {
+      "@/*": ["./src/*"],
+    },
+  },
 };
 
