@@ -15,50 +15,48 @@ import { MdDelete } from "react-icons/md";
 import Notification from './Notification';
 
 function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [conversations, setConversations] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [conversations, setConversations] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    
 
 
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
 
-  
-  const [notifaction, setNotification] = useState("");
-  const showNotification = () => {
-    setNotification(notifaction);
+  const showNotification = (message) => {
+    setNotification(message);
     setTimeout(() => {
       setNotification(null);
     }, 3000);
   };
 
 
-  const handleDelete = () => {
-    console.log("Delete");
-    showNotification("Chat Deleted");
-    // fetch(`http://localhost:3000/api/conversation/${currentChat._id}`, {
-    //   method: "DELETE",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     deleteChat(currentChat._id);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error deleting chat:", error);
-    //   });
+  const handleDelete = (id) => {
+    console.log("Deleteing: ",id);
+    // showNotification("Chat Deleted");
+    fetch(`http://localhost:3000/api/conversation/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => {
+        console.log(data);
+        deleteChat(id);
+        showNotification("Chat Deleted");
+      })
+      .catch((error) => {
+        console.error("Error deleting chat:", error);
+      });
   };
 
   useEffect(() => {
+  
     const fetchConversations = async () => {
       try {
         setIsLoading(true);
         const response = await fetch('http://localhost:3000/api/conversation');
         const data = await response.json();
-
-        // setConversations(Array.isArray(data.conversations) ? data.conversations : []);
         addAllChats(data.conversations);    
 
       } catch (error) {
@@ -131,9 +129,17 @@ function Sidebar() {
               hover:from-gray-700 hover:to-gray-600 transition-colors duration-200 mb-1 flex-grow"
               >
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400" />
-                {!isCollapsed && <TitleComponent title={chat.title} />}
+                {!isCollapsed && (
+                  <TitleComponent
+                    title={chat.title}
+                    startTime={chat.startTime}
+                  />
+                )}
               </Link>
-              <MdDelete className="ml-auto cursor-pointer hover:text-gray-200 hover:scale-150 transition-transform duration-200" onClick={handleDelete} />
+              <MdDelete
+                className="ml-auto cursor-pointer hover:text-gray-200 hover:scale-150 transition-transform duration-200"
+                onClick={() => handleDelete(chat._id)}
+              />
             </div>
           ))
         ) : (

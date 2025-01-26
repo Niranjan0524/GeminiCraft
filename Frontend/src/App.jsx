@@ -5,20 +5,20 @@ import { ChatProvider } from './store/chatContext';
 
 function App() {
   return (
-  <>
-    <BrowserRouter>
-    <ChatProvider>
-        <div>
-        <Routes>          
-          <Route path="/" element={<ChatLayout />} >
-            <Route path="/" element={< Chat/>} />
-            <Route path="/conversation/:id" element={< Chat />} />
-          </Route>
-        </Routes>
-        </div>
-     </ChatProvider>
-    </BrowserRouter>
-  </>
+    <>
+      <BrowserRouter>
+        <ChatProvider>
+          <div>
+            <Routes>
+              <Route path="/" element={<ChatLayout />}>
+                <Route path="/conversation/:id" element={<Chat />} />
+                <Route path="/" element={<Chat />} />
+              </Route>
+            </Routes>
+          </div>
+        </ChatProvider>
+      </BrowserRouter>
+    </>
   );
 }
 

@@ -2,15 +2,16 @@ import { MdDelete } from "react-icons/md";
 import { useContext } from "react";
 import { ChatContext } from "../store/chatContext";
 import { useState } from "react";
+import TimeParsing from "./TimeParsing";
 
-const TitleComponent = ({ title }) => {
+const TitleComponent = ({ title,startTime }) => {
 
   
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className=" items-center justify-between w-full">
       <span className="truncate">{title}</span>
-      
-    </div>
+      <TimeParsing startTime={startTime} />
+      </div>
   );
 };
 

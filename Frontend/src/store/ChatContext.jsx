@@ -26,7 +26,7 @@ export const ChatProvider=({children})=>{
   }
 
   const deleteChat=(id)=>{
-    dispathch({
+    dispatch({
       type:'DELETE_CHAT',
       payload:id
     })
@@ -36,11 +36,28 @@ export const ChatProvider=({children})=>{
     dispatch({
       type:'UPDATE_CHAT',
       payload:chat
-    })
+    })    
   }
 
+   const fetchChats = (id) => {
+    dispatch({
+      type: "FETCH_CHATS",
+      payload: id,
+    });
+
+  };
+
   return (
-    <ChatContext.Provider value={{chats,addAllChats,addChat,deleteChat,updateChat}}>
+    <ChatContext.Provider
+      value={{
+        chats,
+        addAllChats,
+        addChat,
+        deleteChat,
+        updateChat,
+        fetchChats,
+      }}
+    >
       {children}
     </ChatContext.Provider>
   );
