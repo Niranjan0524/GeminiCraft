@@ -9,6 +9,8 @@ exports.newConversation=async(req,res)=>{
 
     const {prompt,model}=req.body;    
     
+    console.log("Prompt:",prompt);
+    console.log("Model:",model);
 
     try{
       const finaltitle=await generateTitle(prompt,model);

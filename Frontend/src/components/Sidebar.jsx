@@ -13,12 +13,14 @@ import { useContext } from 'react';
 import TitleComponent from './TitleComponent';
 import { MdDelete } from "react-icons/md";
 import Notification from './Notification';
+import { FaToggleOff } from "react-icons/fa6";
+import { FaToggleOn } from "react-icons/fa6";
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [conversations, setConversations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    
+    const [darkTheme, setDarkTheme] = useState(true);
 
 
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
@@ -69,6 +71,12 @@ function Sidebar() {
 
     fetchConversations();
   }, []); // Empty dependency array so it only runs once on mount
+
+  const [showSettings, setShowSettings] = useState(false);
+
+  const handleThemeChange=()=>{
+    setDarkTheme(!darkTheme);
+  }
 
   return (
     <div
@@ -148,24 +156,41 @@ function Sidebar() {
       </div>
 
       {/* Bottom Actions */}
-      <div className="p-4 border-t border-gray-700">
-        <div className="space-y-2">
-          <button
-            className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
+      <div className="p-4 border-t border-gray-700 relative">
+        <div className="space-y-2"></div>
+        <button
+          className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
-          >
-            <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
-            {!isCollapsed && <span>Settings</span>}
-          </button>
-          <button
-            className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
+          onClick={() => setShowSettings(!showSettings)}
+        >
+          <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
+          {!isCollapsed && <span>Settings</span>}
+        </button>
+        <button
+          className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
-          >
-            <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
-            {!isCollapsed && <span>Logout</span>}
-          </button>
-        </div>
+        >
+          <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
+          {!isCollapsed && <span>Logout</span>}
+        </button>
       </div>
+      {showSettings && (
+        <div className="absolute right-0 bottom-16 bg-gray-800 text-gray-100 rounded-lg shadow-lg p-4 w-48">
+          <ul className="space-y-2">
+            <li className="hover:bg-gray-700 p-2 rounded">
+              <div className='flex justify-between'>
+                Theme
+                <div className="flex" onClick={handleThemeChange}>
+                 { darkTheme ===true? <FaToggleOn size={25}/>:
+                  <FaToggleOff size={25} />}
+                </div>
+              </div>
+            </li>
+            <li className="hover:bg-gray-700 p-2 rounded">Profile</li>
+            <li className="hover:bg-gray-700 p-2 rounded">Contribute</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
