@@ -12,6 +12,7 @@ import { IoCheckmark } from "react-icons/io5";
 import UserReaction from "./UserReactions";
 import ChatHeader from "./ChatHeader";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from '../store/themeContext';
 
 
 const Chat = () => {
@@ -26,6 +27,7 @@ const Chat = () => {
   const [copiedIndex, setCopiedIndex] = useState(null);
 
   const navigate = useNavigate();
+  const { isDarkTheme } = useTheme();
 
   useEffect(() => {
     if (id) {
@@ -140,7 +142,9 @@ const Chat = () => {
       <ChatHeader
         status={messages.length === 0 ? "New Chat" : currentChat.title}
       />
-      <div className="flex flex-col h-[90vh] bg-gray-900 text-white font-mono items-center justify-center">
+      <div className={`flex flex-col h-[90vh] ${
+        isDarkTheme ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'
+      } font-mono items-center justify-center`}>
         <div className="flex flex-col w-full max-w-3xl h-full">
           <div className="flex-1 overflow-y-auto p-2 w-full overflow-auto scrollbar scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-600">
             {messages.length === 0 ? (
@@ -152,7 +156,11 @@ const Chat = () => {
                   <div className="flex items-center w-full">
                     <input
                       type="text"
-                      className="flex-1 p-4 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
+                      className={`flex-1 p-4 rounded-full ${
+                        isDarkTheme 
+                          ? 'bg-gray-700 text-white' 
+                          : 'bg-white text-gray-800 border border-gray-300'
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                       placeholder="Type your message..."
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -173,10 +181,16 @@ const Chat = () => {
                       </option>
                     </select>
                     <button
-                      className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className={`ml-2 p-4 ${
+                        isDarkTheme
+                          ? 'bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500'
+                          : 'bg-gradient-to-r from-gray-200 to-red-400 hover:from-gray-100 hover:to-red-300'
+                      } text-white rounded-full transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-red-500 active:scale-95`}
                       onClick={handleSend}
                     >
-                      <MdOutlineSend className="h-6 w-6" />
+                      <MdOutlineSend className={`h-6 w-6 ${
+                        isDarkTheme ? 'text-white' : 'text-gray-800'
+                      }`} />
                     </button>
                   </div>
                 </div>
@@ -210,7 +224,11 @@ const Chat = () => {
               <div className="flex items-center w-full">
                 <input
                   type="text"
-                  className="flex-1 p-4 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
+                  className={`flex-1 p-4 rounded-full ${
+                    isDarkTheme 
+                      ? 'bg-gray-700 text-white' 
+                      : 'bg-white text-gray-800 border border-gray-300'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   placeholder="Type your message..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -228,10 +246,16 @@ const Chat = () => {
                   </option>
                 </select>
                 <button
-                  className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`ml-2 p-4 ${
+                    isDarkTheme
+                      ? 'bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500'
+                      : 'bg-gradient-to-r from-gray-200 to-red-400 hover:from-gray-100 hover:to-red-300'
+                  } text-white rounded-full transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-red-500 active:scale-95`}
                   onClick={handleSend}
                 >
-                  <MdOutlineSend className="h-6 w-6" />
+                  <MdOutlineSend className={`h-6 w-6 ${
+                    isDarkTheme ? 'text-white' : 'text-gray-800'
+                  }`} />
                 </button>
               </div>
             </div>
