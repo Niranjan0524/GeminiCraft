@@ -5,6 +5,12 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import SkeletalLoader from "./SkeletalLoader";
+import ReactMarkdown from "react-markdown";
+import React from "react";
+
+import UserReaction from "./UserReactions";
+import ChatHeader from "./ChatHeader";
+import { useNavigate } from "react-router-dom";
 
 
 const Chat = () => {
@@ -71,6 +77,7 @@ const Chat = () => {
           addChat(data.conversation1);
           setCurrentChat(data.conversation1);
           setMessages(data.conversation1.messages);
+          navigate(`/conversation/${data.conversation1._id}`);
         })
         .catch((error) => {
           console.error("Error sending message:", error);
@@ -106,105 +113,109 @@ const Chat = () => {
     }
   };
 
+
+
+ 
+
   return (
-    <div className="flex flex-col h-screen bg-gray-900 text-white font-mono items-center justify-center">
-      <div className="flex flex-col w-full max-w-xl h-full">
-        <div
-          className="flex-1 overflow-y-auto p-2 w-full overflow-auto scrollbar scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-600
-      "
-        >
-          {messages.length === 0 ? (
-            <div className="flex items-center justify-center h-full">
-              <div className="flex flex-col items-center w-full">
-                <p className="text-gray-500 mb-4">
-                  Start a new conversation...
-                </p>
-                <div className="flex items-center w-full">
-                  <input
-                    type="text"
-                    className="flex-1 p-4 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
-                    placeholder="Type your message..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSend()}
-                  />
-                  <select
-                    className="ml-2 p-2 min-w-[100px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
-                    onChange={handleModelchange}
-                  >
-                    <option className="ml-2 p-3" value="gemini-1.5-flash">
-                      gemini-1.5-flash
-                    </option>
-                    <option className="ml-2 p-3" value="gemini-1.5-flash-8B">
-                      gemini-1.5-flash-8B
-                    </option>
-                    <option className="ml-2 p-3" value="gemini-1.5-pro">
-                      gemini-1.5-pro
-                    </option>
-                  </select>
-                  <button
-                    className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onClick={handleSend}
-                  >
-                    <MdOutlineSend className="h-6 w-6" />
-                  </button>
+    <>
+      <ChatHeader
+        status={messages.length === 0 ? "New Chat" : currentChat.title}
+      />
+      <div className="flex flex-col h-[90vh] bg-gray-900 text-white font-mono items-center justify-center">
+        <div className="flex flex-col w-full max-w-3xl h-full">
+          <div className="flex-1 overflow-y-auto p-2 w-full overflow-auto scrollbar scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-600">
+            {messages.length === 0 ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="flex flex-col items-center w-full">
+                  <p className="text-gray-500 mb-4">
+                    Start a new conversation...
+                  </p>
+                  <div className="flex items-center w-full">
+                    <input
+                      type="text"
+                      className="flex-1 p-4 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
+                      placeholder="Type your message..."
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                    />
+                    <select
+                      className="ml-2 p-2 min-w-[100px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
+                      onChange={handleModelchange}
+                    >
+                      <option className="ml-2 p-3" value="gemini-1.5-flash">
+                        gemini-1.5-flash
+                      </option>
+                      <option className="ml-2 p-3" value="gemini-1.5-flash-8B">
+                        gemini-1.5-flash-8B
+                      </option>
+                      <option className="ml-2 p-3" value="gemini-1.5-pro">
+                        gemini-1.5-pro
+                      </option>
+                    </select>
+                    <button
+                      className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onClick={handleSend}
+                    >
+                      <MdOutlineSend className="h-6 w-6" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <>
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`inline-block w-full max-w-full p-4 my-2 rounded-lg break-words ${
-                    message.role === "user"
-                      ? "self-end text-right"
-                      : "self-start text-left"
-                  }`}
+            ) : (
+              <>
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`inline-block w-full max-w-full p-4 my-2 rounded-lg break-words ${
+                      message.role === "user"
+                        ? "self-end text-right"
+                        : "self-start text-left"
+                    }`}
+                  >
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                    {message.role !== "user" && <UserReaction />}
+                  </div>
+                ))}
+                {loading && <SkeletalLoader />}
+              </>
+            )}
+          </div>
+          {messages.length > 0 && (
+            <div className="p-4 border-t border-gray-700">
+              <div className="flex items-center w-full">
+                <input
+                  type="text"
+                  className="flex-1 p-4 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
+                  placeholder="Type your message..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSend()}
+                />
+                <select className="ml-2 p-2 min-w-[150px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-red-500 transition-transform transform hover:scale-106 shadow-lg">
+                  <option className="ml-2 p-3" value="gemini-1.5-flash">
+                    gemini-1.5-flash
+                  </option>
+                  <option className="ml-2 p-3" value="gemini-1.5-flash-8B">
+                    gemini-1.5-flash-8B
+                  </option>
+                  <option className="ml-2 p-3" value="gemini-1.5-pro">
+                    gemini-1.5-pro
+                  </option>
+                </select>
+                <button
+                  className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onClick={handleSend}
                 >
-                  {message.content}
-                </div>
-              ))}
-              {loading && <SkeletalLoader />}
-            </>
+                  <MdOutlineSend className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
           )}
         </div>
-        {messages.length > 0 && (
-          <div className="p-4 border-t border-gray-700">
-            <div className="flex items-center w-full">
-              <input
-                type="text"
-                className="flex-1 p-4 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
-                placeholder="Type your message..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSend()}
-              />
-              <select
-                className="ml-2 p-2 min-w-[150px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-red-500
-              transition-transform transform hover:scale-106 shadow-lg"
-              >
-                <option className="ml-2 p-3" value="gemini-1.5-flash">
-                  gemini-1.5-flash
-                </option>
-                <option className="ml-2 p-3" value="gemini-1.5-flash-8B">
-                  gemini-1.5-flash-8B
-                </option>
-                <option className="ml-2 p-3" value="gemini-1.5-pro">
-                  gemini-1.5-pro
-                </option>
-              </select>
-              <button
-                className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onClick={handleSend}
-              >
-                <MdOutlineSend className="h-6 w-6" />
-              </button>
-            </div>
-          </div>
-        )}
       </div>
-    </div>
+    </>
   );
 };
 

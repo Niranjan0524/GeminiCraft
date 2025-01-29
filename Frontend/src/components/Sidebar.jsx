@@ -72,7 +72,7 @@ function Sidebar() {
 
   return (
     <div
-      className={`bg-gray-900 text-gray-100 h-screen ${
+      className={`bg-gray-900 text-gray-100 h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
       } 
       transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
@@ -110,7 +110,7 @@ function Sidebar() {
         </Link>
       </div>
 
-      <div className="flex-1 px-2 overflow-y-auto">
+      <div className="flex-1 px-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900">
         <h2
           className={`text-gray-400 text-xs uppercase px-2 mb-2 
             ${isCollapsed ? "hidden" : "block"}`}
