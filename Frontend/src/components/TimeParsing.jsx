@@ -11,7 +11,7 @@ const TimeParsing = ({ startTime }) => {
 
   return (
     <div>
-      <p className="text-blue-100 font-sans text-sm">{day}, {dayNumber}/{month}/{year}</p>
+      <p className="text-blue-300 font-sans text-sm">{day}, {dayNumber}/{month}/{year}</p>
     </div>
   );
 }

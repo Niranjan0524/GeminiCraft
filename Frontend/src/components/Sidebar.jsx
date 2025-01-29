@@ -15,12 +15,13 @@ import { MdDelete } from "react-icons/md";
 import Notification from './Notification';
 import { FaToggleOff } from "react-icons/fa6";
 import { FaToggleOn } from "react-icons/fa6";
+import { useTheme } from '../store/themeContext';
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [conversations, setConversations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [darkTheme, setDarkTheme] = useState(true);
+    const { isDarkTheme, toggleTheme } = useTheme();
 
 
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
@@ -74,16 +75,17 @@ function Sidebar() {
 
   const [showSettings, setShowSettings] = useState(false);
 
-  const handleThemeChange=()=>{
-    setDarkTheme(!darkTheme);
-  }
+  const handleThemeChange = () => {
+    toggleTheme();
+  };
 
   return (
     <div
-      className={`bg-gray-900 text-gray-100 h-[100.3vh] ${
+      className={`${
+        isDarkTheme ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-800'
+      } h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
-      } 
-      transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
+      } transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
@@ -175,19 +177,22 @@ function Sidebar() {
         </button>
       </div>
       {showSettings && (
-        <div className="absolute right-0 bottom-16 bg-gray-800 text-gray-100 rounded-lg shadow-lg p-4 w-48">
+        <div className={`absolute right-0 bottom-16 ${
+          isDarkTheme ? 'bg-gray-800 text-gray-100' : 'bg-gray-100 text-gray-800'
+        } rounded-lg shadow-lg p-4 w-48`}>
           <ul className="space-y-2">
-            <li className="hover:bg-gray-700 p-2 rounded">
+            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>
               <div className='flex justify-between'>
                 Theme
                 <div className="flex" onClick={handleThemeChange}>
-                 { darkTheme ===true? <FaToggleOn size={25}/>:
-                  <FaToggleOff size={25} />}
+                  {isDarkTheme ? <FaToggleOn size={25}/> : <FaToggleOff size={25} />}
                 </div>
               </div>
             </li>
-            <li className="hover:bg-gray-700 p-2 rounded">Profile</li>
-            <li className="hover:bg-gray-700 p-2 rounded">Contribute</li>
+            <Link to="/profile">
+            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>Profile</li>
+            </Link>
+            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>Contribute</li>
           </ul>
         </div>
       )}
