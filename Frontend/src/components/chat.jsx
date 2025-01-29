@@ -17,10 +17,13 @@ const Chat = () => {
   const { id } = useParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const { addAllChats,chats, addChat, updateChat } = useContext(ChatContext);
+  const { addAllChats, chats, addChat, deleteChat, updateChat } =
+    useContext(ChatContext);
   const [currentChat, setCurrentChat] = useState(null);
   const [loading, setLoading] = useState(false);
   const [model, setModel] = useState("gemini-1.5-flash");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
@@ -32,9 +35,10 @@ const Chat = () => {
         fetch(`http://localhost:3000/api/conversation`)
           .then((response) => response.json())
           .then((data) => {
-            console.log("data from the server",data);
+            console.log("data from the server", data);
             addAllChats(data.conversations);
-            const chat=data.conversations.find((chat) => chat._id === id);
+            const chat = data.conversations.find((chat) => chat._id === id);
+
             setCurrentChat(chat);
 
             setMessages(chat.messages);
@@ -49,10 +53,16 @@ const Chat = () => {
     }
   }, [id]);
 
+    useEffect(() => {
+      if (currentChat === null) {
+        navigate("/");
+      }
+    }, [currentChat,deleteChat, navigate]);
+
   const handleModelchange =(e)=>{
-    console.log("Model Changed");
+    // console.log("Model Changed");
     console.log(e.target.value);
-    setModel(e.target.value);
+    // setModel(e.target.value);
   }
 
   const handleSend = () => {
