@@ -12,7 +12,7 @@ import { AiFillDislike } from "react-icons/ai";
 import { TfiReload } from "react-icons/tfi";
 import { IoCopy } from "react-icons/io5";
 
-const UserReaction = ({}) => {
+const UserReaction = ({content}) => {
   const [buttons] = useState([
     { id: 1, label: "Copy" },
     { id: 2, label: "Retry" },
@@ -33,10 +33,21 @@ const handleIconClick = (icon) => {
     });
   }
 
+  const handleCopy = async (text, index) => {
+    handleIconClick('copy');  
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
 
   return (
     <>
-      <div className="flex items-center justify-start space-x-2 mt-6"> 
+      <div className="flex items-center justify-start space-x-2 mt-0"> 
         <div className="relative group">
         <button
         className="p-1 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors"
@@ -64,7 +75,8 @@ const handleIconClick = (icon) => {
         className="p-1 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors"
         title="Copy to Text..."
         aria-label="Copy to Text..."
-        onClick={() => { handleIconClick('copy') }}
+        onClick={() => { handleCopy(content) }}
+        
         >
         {iconsState.copy === false ? <LuCopy className="h-4 w-4" /> : <IoCopy className="h-4 w-4" />}
         </button>

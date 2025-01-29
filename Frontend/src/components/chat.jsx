@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MdOutlineSend } from "react-icons/md";
+import { MdOutlineSend, MdContentCopy } from "react-icons/md";
 import { ChatContext } from "../store/chatContext";
 import { useContext } from "react";
 import { useEffect } from "react";
@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import SkeletalLoader from "./SkeletalLoader";
 import ReactMarkdown from "react-markdown";
 import React from "react";
+import { IoCheckmark } from "react-icons/io5";
 
 import UserReaction from "./UserReactions";
 import ChatHeader from "./ChatHeader";
@@ -22,6 +23,7 @@ const Chat = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [loading, setLoading] = useState(false);
   const [model, setModel] = useState("gemini-1.5-flash");
+  const [copiedIndex, setCopiedIndex] = useState(null);
 
   const navigate = useNavigate();
 
@@ -123,9 +125,15 @@ const Chat = () => {
     }
   };
 
-
-
- 
+  const handleCopy = async (text, index) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
 
   return (
     <>
@@ -176,17 +184,22 @@ const Chat = () => {
             ) : (
               <>
                 {messages.map((message, index) => (
+                  <>
                   <div
                     key={index}
-                    className={`inline-block w-full max-w-full p-4 my-2 rounded-lg break-words ${
+                    className={`group relative inline-block w-full max-w-full p-4 my-2 rounded-lg break-words ${
                       message.role === "user"
                         ? "self-end text-right"
                         : "self-start text-left"
                     }`}
-                  >
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                    {message.role !== "user" && <UserReaction />}
+                  >                  
+                      
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
+                    </div>
+                    <div>
+                    {message.role !== "user" && <UserReaction content={message.content} />}
                   </div>
+                  </>
                 ))}
                 {loading && <SkeletalLoader />}
               </>
