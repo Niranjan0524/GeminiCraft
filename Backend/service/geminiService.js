@@ -21,23 +21,55 @@ const createMessagesString = (messages) => {
   };
 
 
-const generateContent = async (prompt, modelName = "gemini-1.5-flash",messages=[]) => {
+const generateContent = async (
+  prompt,
+  modelName = "gemini-1.5-flash",
+  messages = []
+) => {
+  const newPrompt = {
+    role: "user",
+    content: prompt,
+  };
 
- 
-    const newPrompt={
-      role:"user",
-      content:prompt
-    }
+  const finalPrompt = createMessagesString([
+    SYSTEM_PROMPT,
+    ...messages,
+    newPrompt,
+  ]);
 
-    const finalPrompt=createMessagesString([SYSTEM_PROMPT,...messages,newPrompt]);
+  const model = genAI.getGenerativeModel({ model: modelName });
+  //
+  // for (let attempt = 0; attempt < retries; attempt++) {
+  //   try {
+  //     const result = await model.generateContent(finalPrompt);
+  //     console.log("Response in:", result.response.text());
+  //     return {
+  //       response: result.response.text(),
+  //     };
+  //   } catch (error) {
+  //     if (error.status === 503 && attempt < retries - 1) {
+  //       console.log(`Retrying... Attempt ${attempt + 1}`);
+  //       await new Promise((resolve) =>
+  //         setTimeout(resolve, delay * Math.pow(2, attempt))
+  //       );
+  //     } else {
+  //       throw error;
+  //     }
+  //   }
+  // }
+  //
 
-    const model = genAI.getGenerativeModel({ model: modelName });
-
+  try{
     const result = await model.generateContent(finalPrompt);
     console.log("Response in :", result.response.text());
-    return {
+     return {
       response: result.response.text(),
     };
+  }
+  catch(error){
+    return new error;
+  }
+ 
   
 };
 
