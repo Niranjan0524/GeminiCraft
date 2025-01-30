@@ -65,10 +65,12 @@ const Profile = () => {
                     {/* Profile Header */}
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center gap-4">
-                            <div className={`h-20 w-20 rounded-full flex items-center justify-center text-2xl font-bold ${
-                                isDarkTheme ? 'bg-gray-700' : 'bg-gray-200'
-                            }`}>
-                                {profileData.name.charAt(0)}
+                            <div className={`h-20 w-20 rounded-full bg-gradient-to-r from-gray-600 to-red-600 p-[2px]`}>
+                                <div className={`h-full w-full rounded-full flex items-center justify-center text-2xl font-bold ${
+                                    isDarkTheme ? 'bg-gray-800' : 'bg-white'
+                                }`}>
+                                    {profileData.name.charAt(0)}
+                                </div>
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold">{profileData.name}</h2>
@@ -82,7 +84,7 @@ const Profile = () => {
                         {!isEditing ? (
                             <button
                                 onClick={handleEdit}
-                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white transition-all duration-200 transform hover:scale-105"
+                                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white transition-all duration-200 transform hover:scale-105 shadow-lg"
                             >
                                 <PencilIcon className="h-5 w-5" />
                                 Edit Profile
@@ -91,14 +93,14 @@ const Profile = () => {
                             <div className="flex gap-2">
                                 <button
                                     onClick={handleSave}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white transition-all duration-200"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white transition-all duration-200 transform hover:scale-105 shadow-lg"
                                 >
                                     <CheckIcon className="h-5 w-5" />
                                     Save
                                 </button>
                                 <button
                                     onClick={handleCancel}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 text-white transition-all duration-200"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white transition-all duration-200 transform hover:scale-105 shadow-lg"
                                 >
                                     <XMarkIcon className="h-5 w-5" />
                                     Cancel
@@ -122,9 +124,9 @@ const Profile = () => {
                                         onChange={(e) => setEditedData({...editedData, username: e.target.value})}
                                         className={`w-full p-2 rounded-md ${
                                             isDarkTheme 
-                                                ? 'bg-gray-600 text-white' 
+                                                ? 'bg-gray-700 text-white' 
                                                 : 'bg-white text-gray-800'
-                                        } border border-gray-600 focus:ring-2 focus:ring-red-500`}
+                                        } border border-gray-600 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200`}
                                     />
                                 ) : (
                                     <p className="text-lg">{profileData.username}</p>
@@ -141,9 +143,9 @@ const Profile = () => {
                                         onChange={(e) => setEditedData({...editedData, preferredModel: e.target.value})}
                                         className={`w-full p-2 rounded-md ${
                                             isDarkTheme 
-                                                ? 'bg-gray-600 text-white' 
+                                                ? 'bg-gray-700 text-white' 
                                                 : 'bg-white text-gray-800'
-                                        } border border-gray-600 focus:ring-2 focus:ring-red-500`}
+                                        } border border-gray-600 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200`}
                                     >
                                         <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
                                         <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>

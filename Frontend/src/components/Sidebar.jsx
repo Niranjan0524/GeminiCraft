@@ -22,7 +22,7 @@ function Sidebar() {
     const [conversations, setConversations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { isDarkTheme, toggleTheme } = useTheme();
-
+    const [notification,setNotification] =useState("")
 
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
 
@@ -201,3 +201,4 @@ function Sidebar() {
 }
 
 export default Sidebar;
+

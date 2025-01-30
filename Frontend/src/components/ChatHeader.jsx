@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useTheme } from '../store/themeContext';
 
 const ChatHeader = ({ status }) => {
@@ -16,12 +17,16 @@ const ChatHeader = ({ status }) => {
       </button>
       <h1 className="text-xl font-semibold">{status}</h1>
       <div className="flex items-center">
+        <Link to="/profile">
         <img
           src="/ProfilePic.png"
           alt="Profile"
           className="w-10 h-10 rounded-full"
         />
-        <span className="ml-2">Hello, Niranjan</span>
+        </Link>
+        <span className=" text-xl ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">
+          Hello, Niranjan
+        </span>
       </div>
     </div>
   );

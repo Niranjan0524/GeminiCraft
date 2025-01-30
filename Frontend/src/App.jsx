@@ -5,6 +5,8 @@ import { ChatProvider } from './store/chatContext';
 import { ThemeProvider } from './store/themeContext';
 import Profile from './components/Profile';
 
+
+
 function App() {
   return (
     <ThemeProvider>

@@ -12,32 +12,40 @@ exports.newConversation=async(req,res)=>{
     console.log("Prompt:",prompt);
     console.log("Model:",model);
 
-    try{
-      const finaltitle=await generateTitle(prompt,model);
+    try {
+      const finaltitle = await generateTitle(prompt, model);
 
-      const result = await generateContent(prompt,model);
-      
+      const result = await generateContent(prompt, model);
 
-      const conversation1=new Conversation ({  
-        title:finaltitle,
-        model:model,
-        messages:[{
-          role:"user",
-          content:prompt
-        },
-        {
-          role:"assistant",
-          content:result.response
-        }]
+      const conversation1 = new Conversation({
+        title: finaltitle,
+        model: model,
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+          {
+            role: "assistant",
+            content: result.response,
+          },
+        ],
       });
       await conversation1.save();
 
-      res.json({conversation1})
-      
-    }
-    catch(err){
-      console.log(err);
-      res.status(500).json({message:err}); 
+      res.json({ conversation1 });
+    } catch (error) {
+      if (error.status === 503) {
+        return res
+          .status(503)
+          .json({
+            message: "The model is overloaded. Please try again later.",
+          });
+      } else {
+        return res
+          .status(500)
+          .json({ message: "An error occurred while generating content." });
+      }
     }
     
 };
