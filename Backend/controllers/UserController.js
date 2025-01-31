@@ -66,7 +66,7 @@ exports.preSignup = [
 exports.postSignup =  (req, res) => {
   const { name, userName, email, password } = req.body;
 
-
+  console.log(name, userName, email, password);
   bcrypt.hash(password, 12).then((hashedPassword) => {
     const user = new User({
       name: name,

@@ -4,17 +4,20 @@ import { useTheme } from '../store/themeContext';
 import { useAuth } from '../store/authContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
+
 const Signup = () => {
     const { isDarkTheme } = useTheme();
     const { login } = useAuth();
-    const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         name: '',
-        username: '',
+        userName: '',
         email: '',
         password: '',
         confirmPassword: ''
     });
+
+    const navigate=useNavigate();
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
@@ -25,13 +28,23 @@ const Signup = () => {
             setError('Passwords do not match');
             return;
         }
-
+        console.log("client side:",formData);
         try {
-            // Here you would typically make an API call to register the user
-            login({ name: formData.name, email: formData.email });
-            navigate('/login');
+            fetch("http://localhost:3000/api/user/signup", {
+              method: "POST",
+              body: JSON.stringify(formData),
+              headers: {
+                "content-type": "application/json",
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                login({ name: formData.name, email: formData.email });
+                navigate("/login");
+              });            
         } catch (err) {
-            setError('Registration failed');
+            setError(err.message);
         }
     };
 
@@ -99,8 +112,8 @@ const Signup = () => {
                             <label className="block text-sm font-medium mb-2">Username</label>
                             <input
                                 type="text"
-                                value={formData.username}
-                                onChange={(e) => setFormData({...formData, username: e.target.value})}
+                                value={formData.userName}
+                                onChange={(e) => setFormData({...formData, userName: e.target.value})}
                                 className={inputStyle}
                                 placeholder="Choose a username"
                                 required

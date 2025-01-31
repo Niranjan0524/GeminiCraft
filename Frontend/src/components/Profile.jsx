@@ -12,6 +12,9 @@ import { useAuth } from '../store/authContext';
 const Profile = () => {
     const { isDarkTheme } = useTheme();
     const [isEditing, setIsEditing] = useState(false);
+
+    const {user}=useAuth();
+
     const [profileData, setProfileData] = useState({
         name: 'John Doe',
         email: 'john@example.com',
@@ -83,7 +86,7 @@ const Profile = () => {
                                 <div className={`h-full w-full rounded-full flex items-center justify-center text-2xl font-bold ${
                                     isDarkTheme ? 'bg-gray-800' : 'bg-white'
                                 }`}>
-                                    {profileData.name.charAt(0)}
+                                    {user.name.charAt(0)}
                                 </div>
                             </div>
                             <div>
@@ -91,7 +94,7 @@ const Profile = () => {
                                 <p className={`${
                                     isDarkTheme ? 'text-gray-400' : 'text-gray-600'
                                 }`}>
-                                    {profileData.email}
+                                    {user.email}
                                 </p>
                             </div>
                         </div>

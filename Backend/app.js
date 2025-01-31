@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 
 app.use("/api", conversationRouter);
 
-app.use("/user",userRouter);
+app.use("/api/user",userRouter);
 
 app.use(errorHandlers);
 
