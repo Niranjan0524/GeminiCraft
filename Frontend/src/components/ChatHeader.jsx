@@ -4,7 +4,7 @@ import { useAuth } from '../store/authContext';
 
 const ChatHeader = ({ status }) => {
   const { isDarkTheme } = useTheme();
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, logout,user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -41,7 +41,7 @@ const ChatHeader = ({ status }) => {
               </div>
             </Link>
             <span className="ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">
-              Hello, Niranjan
+              Hello, {user.name}
             </span>
             <button
               onClick={handleLogout}
