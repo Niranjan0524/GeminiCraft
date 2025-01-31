@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useTheme } from '../store/themeContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeftIcon,
   PencilIcon,
   CheckIcon,
   XMarkIcon 
 } from '@heroicons/react/24/outline';
+import { useAuth } from '../store/authContext';
 
 const Profile = () => {
     const { isDarkTheme } = useTheme();
@@ -20,6 +21,8 @@ const Profile = () => {
         joinedDate: 'January 2024'
     });
     const [editedData, setEditedData] = useState({...profileData});
+    const navigate = useNavigate();
+    const { logout } = useAuth();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -35,6 +38,11 @@ const Profile = () => {
     const handleCancel = () => {
         setIsEditing(false);
         setEditedData({...profileData});
+    };
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
     };
 
     return (
@@ -53,6 +61,12 @@ const Profile = () => {
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent">
                         Profile Settings
                     </h1>
+                    <button
+                        onClick={handleLogout}
+                        className="px-4 py-2 rounded-lg bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white transition-all duration-200 transform hover:scale-105 shadow-lg"
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
 
