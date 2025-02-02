@@ -4,6 +4,7 @@ import { useTheme } from '../store/themeContext';
 import { useAuth } from '../store/authContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
+
 const Login = () => {
     const { isDarkTheme } = useTheme();
     const { login } = useAuth();
@@ -17,9 +18,26 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Here you would typically make an API call to verify credentials
-            login({ name: 'Niranjan', email: formData.email });
-            navigate('/');
+            fetch("http://localhost:3000/api/user/login",{
+                method:"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify(formData)
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data);
+
+                if(data.user){
+                    login({ name: data.user.name, email: data.user.email });
+                    navigate("/");
+                }
+                else{
+                    setError(data.message);
+                }
+            })
+            
         } catch (err) {
             setError('Invalid credentials');
         }
@@ -56,7 +74,7 @@ const Login = () => {
                         <p className={`${
                             isDarkTheme ? 'text-gray-400' : 'text-gray-600'
                         }`}>
-                            Sign in to continue to your account
+                            Log In to continue to your account
                         </p>
                     </div>
 
@@ -117,7 +135,7 @@ const Login = () => {
                         }`}>
                             Don't have an account?{' '}
                             <Link to="/signup" className="text-red-500 hover:text-red-400 font-medium">
-                                Sign up
+                                Finally 
                             </Link>
                         </div>
                     </form>

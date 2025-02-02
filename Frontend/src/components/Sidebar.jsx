@@ -16,6 +16,8 @@ import Notification from './Notification';
 import { FaToggleOff } from "react-icons/fa6";
 import { FaToggleOn } from "react-icons/fa6";
 import { useTheme } from '../store/themeContext';
+import { useAuth } from '../store/authContext';
+import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -23,7 +25,8 @@ function Sidebar() {
     const [isLoading, setIsLoading] = useState(true);
     const { isDarkTheme, toggleTheme } = useTheme();
     const [notification,setNotification] =useState("")
-
+    const {isLoggedIn} = useAuth();
+    const navigate= useNavigate();
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
 
   const showNotification = (message) => {
@@ -79,6 +82,18 @@ function Sidebar() {
     toggleTheme();
   };
 
+
+  const handleProfile=()=>{
+    console.log("Profile clicked");
+    if(isLoggedIn){
+      navigate("/profile");
+    }
+    setNotification("Please login to view profile")
+  }
+
+
+
+
   return (
     <div
       className={`${
@@ -87,6 +102,7 @@ function Sidebar() {
         isCollapsed ? "w-16" : "w-120"
       } transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
     >
+   
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
           <span className="font-semibold text-3xl bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent">
@@ -180,7 +196,7 @@ function Sidebar() {
         <div className={`absolute right-0 bottom-16 ${
           isDarkTheme ? 'bg-gray-800 text-gray-100' : 'bg-gray-100 text-gray-800'
         } rounded-lg shadow-lg p-4 w-48`}>
-          <ul className="space-y-2">
+          <ul className="space-y-2" >
             <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>
               <div className='flex justify-between'>
                 Theme
@@ -189,9 +205,10 @@ function Sidebar() {
                 </div>
               </div>
             </li>
-            <Link to="/profile">
-            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>Profile</li>
-            </Link>
+            
+            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`} 
+            onClick={handleProfile}>Profile</li>
+            
             <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>Contribute</li>
           </ul>
         </div>

@@ -29,31 +29,11 @@ const {errorHandlers} = require("./controllers/errorHandler");
 const {conversationRouter} = require("./routers/conversationRouter"); 
 
 const session=require("express-session")
-const mongodbStore=require("connect-mongodb-session")(session);
+
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const store=new mongodbStore({
-  uri:url,
-  collection:"sessions"
-})
-
-app.use(
-  session({
-    secret:"my new secret",
-    resave:false,
-    saveUninitialized:false,
-    store:store,
-  })
-);
-
-app.use((req, res, next) => {
-  if (req.get("cookie")) {
-    req.isLoggedIn = req.get("Cookie").split("=")[1] === "true";
-  }
-  next();
-});
 
 app.use((req, res, next) => {
   console.log("Request Recived");

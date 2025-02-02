@@ -12,7 +12,7 @@ import { useAuth } from '../store/authContext';
 const Profile = () => {
     const { isDarkTheme } = useTheme();
     const [isEditing, setIsEditing] = useState(false);
-
+    const [error,setError]=useState("");
     const {user}=useAuth();
 
     const [profileData, setProfileData] = useState({
@@ -34,8 +34,35 @@ const Profile = () => {
 
     const handleSave = () => {
         setProfileData({...editedData});
-        setIsEditing(false);
-        // Here you would typically make an API call to update the user data
+        if(editedData.username!==user.name){
+            fetch(`http://localhost:3000/api/user/edit`,{
+                method:"PUT",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify(editedData)
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                console.log(data);
+                if(data.success){
+                    setIsEditing(false);
+                }
+                else{
+                    console.log(data.message);
+                    setError(data.message); 
+                }
+            })
+            .catch((err)=>{
+                console.log(err);
+                setError("Something went wrong");
+            })
+        }
+        else{
+
+            setIsEditing(false);
+        }
+        
     };
 
     const handleCancel = () => {
@@ -86,7 +113,7 @@ const Profile = () => {
                                 <div className={`h-full w-full rounded-full flex items-center justify-center text-2xl font-bold ${
                                     isDarkTheme ? 'bg-gray-800' : 'bg-white'
                                 }`}>
-                                    {user.name.charAt(0)}
+                                    {user.name}
                                 </div>
                             </div>
                             <div>
@@ -146,7 +173,7 @@ const Profile = () => {
                                         } border border-gray-600 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200`}
                                     />
                                 ) : (
-                                    <p className="text-lg">{profileData.username}</p>
+                                    <p className="text-lg">{user.name}</p>
                                 )}
                             </div>
 

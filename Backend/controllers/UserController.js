@@ -1,6 +1,7 @@
 const User = require("../model/user");
 const bcrypt = require("bcryptjs");
 const expressValidator = require("express-validator");
+const jwt=require("jsonwebtoken");
 
 const nameValidator = expressValidator
   .check("name")
@@ -90,3 +91,60 @@ exports.postSignup =  (req, res) => {
       });
   }); 
 };
+
+
+exports.login=async(req,res)=>{
+
+
+  const {email,password}=req.body;
+  console.log(email,password);
+
+  const user=await User.findOne({
+    email
+  }); 
+
+  if(!user){
+    return res.status(404).json({
+      message:"user not found"
+    })
+  }
+
+  const isEqual=await bcrypt.compare(password,user.password);
+
+  if(!isEqual){
+    return res.status(401).json({
+      message:"Invalid password or email"
+    })
+  }
+
+  const token=jwt.sign({
+    email:user.email,
+    userId:user._id.toString()
+  },
+    process.env.JWT_SECRET,
+    {
+      expiresIn:"1h"
+    }
+  )
+
+  res.json({
+    message:"User Logged in successfully",
+    user:{
+      name:user.name,
+      email:user.email
+    },
+    token
+  })
+
+}
+
+
+exports.editProfile=async(req,res)=>{
+  const {name,email}=req.body;
+
+  console.log(name,email);
+
+  res.json({success:true,
+    message:"Profile Updated"
+  })
+}
