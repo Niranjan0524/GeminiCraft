@@ -18,7 +18,7 @@ const Notification=({message})=>{
               <strong class="me-auto">Bootstrap</strong>
               <small>11 mins ago</small>
             </div>
-            <div class="toast-body">Hello, world! This is a toast message.</div>
+            <div class="toast-body">{message}</div>
           </div>
         </div>
       </>
