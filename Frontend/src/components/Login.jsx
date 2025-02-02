@@ -30,7 +30,7 @@ const Login = () => {
                 console.log(data);
 
                 if(data.user){
-                    login({ name: data.user.name, email: data.user.email });
+                    login(data);
                     navigate("/");
                 }
                 else{

@@ -5,6 +5,7 @@ import { useAuth } from '../store/authContext';
 const ChatHeader = ({ status }) => {
   const { isDarkTheme } = useTheme();
   const { isLoggedIn, logout,user } = useAuth();
+ 
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,14 +18,20 @@ const ChatHeader = ({ status }) => {
   };
 
   return (
-    <div className={`flex justify-between items-center font-mono p-4 ${
-      isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-800 border-b border-gray-200'
-    }`}>
-      <button className={`${
-        isDarkTheme 
-          ? 'bg-gray-700 hover:bg-gray-600' 
-          : 'bg-gray-200 hover:bg-gray-300'
-        } text-current font-bold py-2 px-4 rounded`}>
+    <div
+      className={`flex justify-between items-center font-mono p-4 ${
+        isDarkTheme
+          ? "bg-gray-900 text-white"
+          : "bg-white text-gray-800 border-b border-gray-200"
+      }`}
+    >
+      <button
+        className={`${
+          isDarkTheme
+            ? "bg-gray-700 hover:bg-gray-600"
+            : "bg-gray-200 hover:bg-gray-300"
+        } text-current font-bold py-2 px-4 rounded`}
+      >
         Open Modal
       </button>
       <h1 className="text-xl font-semibold">{status}</h1>
@@ -40,9 +47,12 @@ const ChatHeader = ({ status }) => {
                 />
               </div>
             </Link>
-            <span className="ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">
-              Hello, {user.name}
-            </span>
+            <div className="ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">
+            Hello, 
+            {console.log(user)}
+            {isLoggedIn && user.name}
+            {!isLoggedIn && "User"}
+            </div >
             <button
               onClick={handleLogout}
               className="px-4 py-2 rounded-lg bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white transition-all duration-200 transform hover:scale-105 shadow-lg"
