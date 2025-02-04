@@ -121,7 +121,7 @@ const Login = () => {
                             type="submit"
                             className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white transition-all duration-200 transform hover:scale-105 shadow-lg font-medium"
                         >
-                            Sign In
+                            Log In
                         </button>
 
                         <div className="text-center text-sm">
@@ -135,7 +135,7 @@ const Login = () => {
                         }`}>
                             Don't have an account?{' '}
                             <Link to="/signup" className="text-red-500 hover:text-red-400 font-medium">
-                                Finally 
+                                Signup 
                             </Link>
                         </div>
                     </form>

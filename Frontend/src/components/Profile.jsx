@@ -8,19 +8,22 @@ import {
   XMarkIcon 
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../store/authContext';
+import { use } from 'react';
+import { useEffect } from 'react';
 
 const Profile = () => {
     const { isDarkTheme } = useTheme();
     const [isEditing, setIsEditing] = useState(false);
     const [error,setError]=useState("");
-    const {user}=useAuth();
+   
+    const user=JSON.parse(localStorage.getItem("user"));
 
     const [profileData, setProfileData] = useState({
-        name: 'John Doe',
-        email: 'john@example.com',
-        username: 'johndoe',
+        name: user.name || 'John Doe',
+        email: user.email || 'john2@gmail.com',
+        username: user.userName || 'john_doe',
         preferredModel: 'gemini-1.5-pro',
-        totalChats: 42,
+        totalChats: user.conversations || 0,
         joinedDate: 'January 2024'
     });
     const [editedData, setEditedData] = useState({...profileData});
@@ -75,6 +78,9 @@ const Profile = () => {
         navigate('/login');
     };
 
+
+ 
+
     return (
         <div className={`min-h-screen ${
             isDarkTheme ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-800'
@@ -117,7 +123,7 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold">{profileData.name}</h2>
+                                <h2 className="text-xl font-bold">{user.name}</h2>
                                 <p className={`${
                                     isDarkTheme ? 'text-gray-400' : 'text-gray-600'
                                 }`}>
@@ -173,7 +179,7 @@ const Profile = () => {
                                         } border border-gray-600 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200`}
                                     />
                                 ) : (
-                                    <p className="text-lg">{user.name}</p>
+                                    <p className="text-lg">{user.userName}</p>
                                 )}
                             </div>
 
