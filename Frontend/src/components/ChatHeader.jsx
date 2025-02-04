@@ -4,10 +4,10 @@ import { useAuth } from '../store/authContext';
 
 const ChatHeader = ({ status }) => {
   const { isDarkTheme } = useTheme();
-  const { isLoggedIn, logout,user } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
  
   const navigate = useNavigate();
-
+  const user=JSON.parse(localStorage.getItem('user'));
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -49,7 +49,7 @@ const ChatHeader = ({ status }) => {
             </Link>
             <div className="ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">
             Hello, 
-            {console.log(user)}
+            
             {isLoggedIn && user.name}
             {!isLoggedIn && "User"}
             </div >
