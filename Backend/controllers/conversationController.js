@@ -1,16 +1,21 @@
 const conversation = require('../model/conversation');
+const jwt = require('jsonwebtoken');
 
 const {generateContent} = require('../service/geminiService');
 const Conversation = require('../model/conversation');
-
+const User =require('../model/user');
 const {generateTitle} = require('../service/geminiService');
 
 exports.newConversation=async(req,res)=>{
 
-    const {prompt,model}=req.body;    
-    
-    console.log("Prompt:",prompt);
-    console.log("Model:",model);
+    const {prompt,model,token}=req.body;  
+   
+    if(!token){
+      return res.status(401).json({message:"Unauthorized :No token provided"});
+    }
+
+    const {email,userId}=jwt.verify(token,process.env.JWT_SECRET);
+
 
     try {
       const finaltitle = await generateTitle(prompt, model);
@@ -33,6 +38,16 @@ exports.newConversation=async(req,res)=>{
       });
       await conversation1.save();
 
+      const conv_id=conversation1._id;
+      const user=await User.findById(userId);
+
+      if(user){
+        user.conversations.push(conv_id);
+        await user.save();
+      }
+      else{
+        return res.status(404).json({message:"user not found"});
+      }
       res.json({ conversation1 });
     } catch (error) {
       if (error.status === 503) {
@@ -79,18 +94,65 @@ exports.newMessage=async(req,res,next)=>{
 
 
 exports.getConversation=async(req,res)=>{
-  const conversations=await conversation.find();
+ 
+ const authHeader = req.headers.authorization;
+ if (!authHeader) {
+   return res.status(401).json({ message: "Unauthorized: No token provided" });
+ }
 
-  if(!conversations){
-      return res.status(404).json({message:"Conversation not found"});
+ const token = authHeader.split(" ")[1];
+ if (!token) {
+   return res.status(401).json({ message: "Unauthorized: No token provided" });
+ }
+
+  const {userId}=jwt.verify(token,process.env.JWT_SECRET);
+
+  try{
+    const user=await User.findById(userId);
+    if(!user){
+      return res.status(404).json({message:"user not found"});
+    }
+    const conversations_array=user.conversations;
+    
+    //array of objects:
+    const finalConversations = await Promise.all(
+      conversations_array.map((id) => conversation.findById(id))
+    );
+    
+    res.json({ conversations: finalConversations });
   }
-  res.json({conversations});
+  catch(err){
+    console.log(err);
+    return res.status(404).json({message:err.message});
+  }
+
+
 };
 
 
 exports.deleteConversation=async(req,res)=>{
   const id=req.params.id;
-  
+  console.log("Id:",id);
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  }
+
+  const {userId}=jwt.verify(token,process.env.JWT_SECRET);
+  const user=await User.findById(userId);
+
+  if(!user){  
+    return res.status(404).json({message:"user Not found"});
+  }
   await conversation.findByIdAndDelete(id);
+  user.conversations=user.conversations.filter((convId)=>id!=convId);
+
+  await user.save();
+  
   res.status(204).json({message:"Conversation deleted successfully"});  
 }

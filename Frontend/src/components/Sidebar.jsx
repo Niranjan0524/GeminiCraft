@@ -25,7 +25,7 @@ function Sidebar() {
     const [isLoading, setIsLoading] = useState(true);
     const { isDarkTheme, toggleTheme } = useTheme();
     const [notification,setNotification] =useState("")
-    const {isLoggedIn} = useAuth();
+    const {isLoggedIn,token} = useAuth();
     const navigate= useNavigate();
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
 
@@ -39,11 +39,12 @@ function Sidebar() {
 
   const handleDelete = (id) => {
     console.log("Deleteing: ",id);
+    console.log("Token inside handleDelete:",token);
     // showNotification("Chat Deleted");
     fetch(`http://localhost:3000/api/conversation/${id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((data) => {
@@ -61,8 +62,19 @@ function Sidebar() {
     const fetchConversations = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://localhost:3000/api/conversation');
+        console.log("Token inside fetchConversations:",token);
+        if(!token){
+          setConversations([]);
+          return ;
+        }
+        const response = await fetch("http://localhost:3000/api/conversation", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        });
         const data = await response.json();
+        console.log("Data from the server in sidebar:",data);
         addAllChats(data.conversations);    
 
       } catch (error) {
@@ -74,7 +86,7 @@ function Sidebar() {
     };
 
     fetchConversations();
-  }, []); // Empty dependency array so it only runs once on mount
+  }, [token]); 
 
   const [showSettings, setShowSettings] = useState(false);
 

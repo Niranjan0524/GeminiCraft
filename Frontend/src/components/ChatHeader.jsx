@@ -7,7 +7,7 @@ const ChatHeader = ({ status }) => {
   const { isLoggedIn, logout } = useAuth();
  
   const navigate = useNavigate();
-  const user=JSON.parse(localStorage.getItem('user'));
+  const user=JSON.parse(localStorage.getItem('user'))|| {name:"User"};
   const handleLogout = () => {
     logout();
     navigate('/login');

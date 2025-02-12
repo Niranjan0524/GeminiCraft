@@ -15,13 +15,15 @@ const Login = () => {
     });
     const [error, setError] = useState('');
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData);
         try {
             fetch("http://localhost:3000/api/user/login",{
                 method:"POST",
                 headers:{
-                    "content-type":"application/json"
+                    "Content-Type":"application/json"
                 },
                 body:JSON.stringify(formData)
             })
