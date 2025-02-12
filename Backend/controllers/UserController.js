@@ -97,7 +97,7 @@ exports.login=async(req,res)=>{
 
 
   const {email,password}=req.body;
-  console.log(email,password);
+  console.log(req.body);
 
   const user=await User.findOne({
     email

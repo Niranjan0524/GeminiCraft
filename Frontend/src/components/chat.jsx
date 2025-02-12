@@ -9,7 +9,7 @@ import UserReaction from "./UserReactions";
 import ChatHeader from "./ChatHeader";
 import { useTheme } from "../store/themeContext";
 import Notification from "./Notification";
-
+import { useAuth } from "../store/authContext";
 
 const Chat = () => {
   const { id } = useParams();
@@ -22,7 +22,8 @@ const Chat = () => {
   const [model, setModel] = useState("gemini-1.5-flash");
   const navigate = useNavigate();
   const { isDarkTheme } = useTheme();
-
+  const { token } = useAuth();
+  
   
 
   useEffect(() => {
@@ -32,10 +33,15 @@ const Chat = () => {
         setCurrentChat(chat);
         setMessages(chat.messages);
       } else {
-        fetch(`http://localhost:3000/api/conversation`)
+        fetch(`http://localhost:3000/api/conversation`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
           .then((response) => response.json())
           .then((data) => {
-            console.log("data from the server", data);
+            console.log("data from the server in chat", data);
             addAllChats(data.conversations);
             const chat = data.conversations.find((chat) => chat._id === id);
             setCurrentChat(chat);
@@ -73,10 +79,12 @@ const Chat = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization : `Bearer ${token}`
         },
         body: JSON.stringify({
           prompt: input,
           model: model,
+          token: localStorage.getItem("token"),
         }),
       })
         .then((response) => response.json())
@@ -103,6 +111,7 @@ const Chat = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          
         },
         body: JSON.stringify({
           prompt: input,

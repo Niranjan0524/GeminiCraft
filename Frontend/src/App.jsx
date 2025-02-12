@@ -8,6 +8,7 @@ import { AuthProvider } from './store/authContext';
 import Login from './components/Login';
 import Signup from './components/Signup';
 
+
 function App() {
   return (
     <ThemeProvider>
@@ -15,6 +16,7 @@ function App() {
         <AuthProvider>
           <ChatProvider>
             <div>
+
               <Routes>
               <Route path="/" element={<ChatLayout />}>
                 <Route path="/conversation/:id" element={<Chat />} />
