@@ -1,11 +1,35 @@
 import React, { createContext, useState, useContext } from 'react';
+import { useEffect } from 'react';
+import {jwtDecode} from "jwt-decode";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') || false);
-  const [user, setUser] = useState(localStorage.getItem('user')||null);
-  const [token,setToken]=useState(localStorage.getItem('token')||null);
+
+  const IsTokenExpired=(token)=>{
+    if(!token){
+      return true;
+    }
+
+    const decodedToken=jwtDecode(token);
+    const currentTime=Date.now()/1000;//basically it will convert the date to seconds
+
+    return decodedToken.exp < currentTime;
+  }
+  const [user, setUser] = useState(localStorage.getItem("user") || null);
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+
+  useEffect(()=>{
+    const token=localStorage.getItem('token')||null;
+    if(IsTokenExpired(token)){
+      logout();
+    }
+    setToken(token);
+  },[token]);
+ const [isLoggedIn, setIsLoggedIn] = useState(
+   localStorage.getItem("isLoggedIn") || false
+ );
+  
 
 
   const login = (data) => {

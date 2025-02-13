@@ -9,8 +9,11 @@ const ChatHeader = ({ status }) => {
   const navigate = useNavigate();
   const user=JSON.parse(localStorage.getItem('user'))|| {name:"User"};
   const handleLogout = () => {
-    logout();
-    navigate('/login');
+    const reply=window.confirm("Are you sure you want to logout?");
+    if(reply){
+      logout();
+      navigate("/login");
+    }    
   };
 
   const handleLogin = () => {

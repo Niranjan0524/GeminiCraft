@@ -41,7 +41,7 @@ const Chat = () => {
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log("data from the server in chat", data);
+            
             addAllChats(data.conversations);
             const chat = data.conversations.find((chat) => chat._id === id);
             setCurrentChat(chat);
@@ -64,7 +64,7 @@ const Chat = () => {
   }, [currentChat, navigate]);
 
   const handleModelChange = (e) => {
-    console.log("Model Changed");
+    // console.log("Model Changed");
     console.log(e.target.value);
     setModel(e.target.value);
   };
@@ -89,7 +89,7 @@ const Chat = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           if (data.conversation1 && data.conversation1._id) {
             addChat(data.conversation1);
             setCurrentChat(data.conversation1);
@@ -119,7 +119,7 @@ const Chat = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+        
           updateChat(data.conversations);
           setMessages(data.conversations.messages);
           setCurrentContent(data.content);

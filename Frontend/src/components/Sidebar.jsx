@@ -25,7 +25,7 @@ function Sidebar() {
     const [isLoading, setIsLoading] = useState(true);
     const { isDarkTheme, toggleTheme } = useTheme();
     const [notification,setNotification] =useState("")
-    const {isLoggedIn,token} = useAuth();
+    const {isLoggedIn,token,logout} = useAuth();
     const navigate= useNavigate();
   const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
 
@@ -104,17 +104,28 @@ function Sidebar() {
   }
 
 
+  const handleLogout=()=>{
+    console.log("Loggin Out");
+    const reply =window.confirm("Are you sure you want to logout?");
+    if(reply){
+      logout();
+      navigate("/login");
+    }
+    else{
+      console.log("Cancelled");
+      
+    }
+  }
 
 
   return (
     <div
       className={`${
-        isDarkTheme ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-800'
+        isDarkTheme ? "bg-gray-900 text-gray-100" : "bg-white text-gray-800"
       } h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
       } transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
     >
-   
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
           <span className="font-semibold text-3xl bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent">
@@ -199,29 +210,54 @@ function Sidebar() {
         <button
           className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
+          onClick={handleLogout}
         >
           <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
           {!isCollapsed && <span>Logout</span>}
         </button>
       </div>
       {showSettings && (
-        <div className={`absolute right-0 bottom-16 ${
-          isDarkTheme ? 'bg-gray-800 text-gray-100' : 'bg-gray-100 text-gray-800'
-        } rounded-lg shadow-lg p-4 w-48`}>
-          <ul className="space-y-2" >
-            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>
-              <div className='flex justify-between'>
+        <div
+          className={`absolute right-0 bottom-16 ${
+            isDarkTheme
+              ? "bg-gray-800 text-gray-100"
+              : "bg-gray-100 text-gray-800"
+          } rounded-lg shadow-lg p-4 w-48`}
+        >
+          <ul className="space-y-2">
+            <li
+              className={`${
+                isDarkTheme ? "hover:bg-gray-700" : "hover:bg-gray-200"
+              } p-2 rounded`}
+            >
+              <div className="flex justify-between">
                 Theme
                 <div className="flex" onClick={handleThemeChange}>
-                  {isDarkTheme ? <FaToggleOn size={25}/> : <FaToggleOff size={25} />}
+                  {isDarkTheme ? (
+                    <FaToggleOn size={25} />
+                  ) : (
+                    <FaToggleOff size={25} />
+                  )}
                 </div>
               </div>
             </li>
-            
-            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`} 
-            onClick={handleProfile}>Profile</li>
-            
-            <li className={`${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'} p-2 rounded`}>Contribute</li>
+
+            <li
+              className={`${
+                isDarkTheme ? "hover:bg-gray-700" : "hover:bg-gray-200"
+              } p-2 rounded`}
+              onClick={handleProfile}
+            >
+              Profile
+            </li>
+
+            <li
+              className={`${
+                isDarkTheme ? "hover:bg-gray-700" : "hover:bg-gray-200"
+              } p-2 rounded`}
+            >
+              Contribute
+            </li>
           </ul>
         </div>
       )}

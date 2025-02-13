@@ -38,30 +38,11 @@ const generateContent = async (
   ]);
 
   const model = genAI.getGenerativeModel({ model: modelName });
-  //
-  // for (let attempt = 0; attempt < retries; attempt++) {
-  //   try {
-  //     const result = await model.generateContent(finalPrompt);
-  //     console.log("Response in:", result.response.text());
-  //     return {
-  //       response: result.response.text(),
-  //     };
-  //   } catch (error) {
-  //     if (error.status === 503 && attempt < retries - 1) {
-  //       console.log(`Retrying... Attempt ${attempt + 1}`);
-  //       await new Promise((resolve) =>
-  //         setTimeout(resolve, delay * Math.pow(2, attempt))
-  //       );
-  //     } else {
-  //       throw error;
-  //     }
-  //   }
-  // }
-  //
+
 
   try{
     const result = await model.generateContent(finalPrompt);
-    console.log("Response in :", result.response.text());
+    // console.log("Response in :", result.response.text());
      return {
       response: result.response.text(),
     };
