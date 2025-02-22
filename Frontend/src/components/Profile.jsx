@@ -8,27 +8,31 @@ import {
   XMarkIcon 
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../store/authContext';
-import { use } from 'react';
-import { useEffect } from 'react';
+
 
 const Profile = () => {
     const { isDarkTheme } = useTheme();
     const [isEditing, setIsEditing] = useState(false);
     const [error,setError]=useState("");
    
-    const user=JSON.parse(localStorage.getItem("user"));
+    const user=JSON.parse(localStorage.getItem("user"))||{name:"User"};
+
+    
+    console.log("user in profile section",user);   
 
     const [profileData, setProfileData] = useState({
-        name: user.name || 'John Doe',
-        email: user.email || 'john2@gmail.com',
-        username: user.userName || 'john_doe',
-        preferredModel: 'gemini-1.5-pro',
-        totalChats: user.conversations || 0,
-        joinedDate: 'January 2024'
+      name: user.name || "user",
+      email: user.email || "user@gmail.com",
+      userName: user.userName || "newUser_default",
+      preferredModel: "gemini-1.5-pro",
+      totalChats: user.conversations
+        ? user.conversations.length
+        : 0,
+      joinedDate: "January 2024",
     });
     const [editedData, setEditedData] = useState({...profileData});
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { logout,setUser } = useAuth();
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -36,34 +40,36 @@ const Profile = () => {
     };
 
     const handleSave = () => {
-        setProfileData({...editedData});
-        if(editedData.username!==user.name){
-            fetch(`http://localhost:3000/api/user/edit`,{
-                method:"PUT",
-                headers:{
-                    "content-type":"application/json"
-                },
-                body:JSON.stringify(editedData)
+        
+        const token=localStorage.getItem('token')||null;
+        console.log("token in frontend",token);
+        if (editedData.userName !== user.name) {
+          fetch(`http://localhost:3000/api/user/edit`, {
+            method: "PUT",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(editedData),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              if (data.success) {
+                setIsEditing(false);
+                setProfileData({ ...editedData });
+                localStorage.setItem("user",JSON.stringify(editedData));                    
+              } else {
+                console.log(data.message);
+                setError(data.message);
+              }
             })
-            .then(res=>res.json())
-            .then(data=>{
-                console.log(data);
-                if(data.success){
-                    setIsEditing(false);
-                }
-                else{
-                    console.log(data.message);
-                    setError(data.message); 
-                }
-            })
-            .catch((err)=>{
-                console.log(err);
-                setError("Something went wrong");
-            })
-        }
-        else{
-
-            setIsEditing(false);
+            .catch((err) => {
+              console.log(err);
+              setError("Something went wrong");
+            });
+        } else {
+          setIsEditing(false);
         }
         
     };
@@ -119,7 +125,7 @@ const Profile = () => {
                                 <div className={`h-full w-full rounded-full flex items-center justify-center text-2xl font-bold ${
                                     isDarkTheme ? 'bg-gray-800' : 'bg-white'
                                 }`}>
-                                    {user.name}
+                                    {profileData.name}
                                 </div>
                             </div>
                             <div>
@@ -127,7 +133,7 @@ const Profile = () => {
                                 <p className={`${
                                     isDarkTheme ? 'text-gray-400' : 'text-gray-600'
                                 }`}>
-                                    {user.email}
+                                    {profileData.email}
                                 </p>
                             </div>
                         </div>
@@ -179,7 +185,7 @@ const Profile = () => {
                                         } border border-gray-600 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-200`}
                                     />
                                 ) : (
-                                    <p className="text-lg">{user.userName}</p>
+                                    <p className="text-lg">{profileData.userName}</p>
                                 )}
                             </div>
 
