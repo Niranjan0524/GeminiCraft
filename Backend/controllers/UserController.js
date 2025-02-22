@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const expressValidator = require("express-validator");
 const jwt=require("jsonwebtoken");
 
+
 const nameValidator = expressValidator
   .check("name")
   .notEmpty()
@@ -142,11 +143,54 @@ exports.login=async(req,res)=>{
 
 
 exports.editProfile=async(req,res)=>{
-  const {name,email}=req.body;
+  const {username,email}=req.body;
 
-  console.log(name,email);
+  console.log("inside controller ",username,email);
 
-  res.json({success:true,
-    message:"Profile Updated"
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
+  }
+  const token = authHeader.split(" ")[1];
+  console.log("token in controller", token);
+  const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+  console.log("userId", userId);
+ 
+
+  try{
+    const user=await User.findById(userId);
+    user.userName=username;
+    await user.save();
+    res.json({ success: true, message: "Profile Updated", user :user});
+  }
+  catch(err){
+    console.log(err);
+    return res.status(404).json({message:err.message});
+  } 
+
+  
+}
+
+exports.getUser=async(req,res)=>{
+  const authHeader=req.headers.authorization;
+  if(!authHeader){
+    res.status(401).json({
+      message:"Unauthorized:No token provided"  
+    })
+  } 
+  const token = authHeader.split(" ")[1];
+
+ try{
+   const {userId}=jwt.verify(token,process.env.JWT_SECRET);
+
+  const user=await User.findById(userId);
+
+  res.json({
+    message:"User fetched successfully",
+    user:user
   })
+ }catch(err){
+   console.log(err);
+   return res.status(404).json({message:err.message});
+ }
 }

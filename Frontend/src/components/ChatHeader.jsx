@@ -7,7 +7,10 @@ const ChatHeader = ({ status }) => {
   const { isLoggedIn, logout } = useAuth();
  
   const navigate = useNavigate();
-  const user=JSON.parse(localStorage.getItem('user'))|| {name:"User"};
+
+ 
+    const {user }=useAuth();
+
   const handleLogout = () => {
     const reply=window.confirm("Are you sure you want to logout?");
     if(reply){
@@ -43,11 +46,7 @@ const ChatHeader = ({ status }) => {
           <>
             <Link to="/profile">
               <div className="w-10 h-10 rounded-full bg-gradient-to-r from-gray-600 to-red-600 p-[2px]">
-                <img
-                  src="/ProfilePic.png"
-                  alt="Profile"
-                  className="w-full h-full rounded-full object-cover"
-                />
+                
               </div>
             </Link>
             <div className="ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">

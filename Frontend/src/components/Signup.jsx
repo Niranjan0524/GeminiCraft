@@ -30,7 +30,7 @@ const Signup = () => {
         }
         console.log("client side:",formData);
         try {
-            fetch("http://localhost:3000/api/user/signup", {
+            fetch('http://localhost:3000/api/user/signup', {
               method: "POST",
               body: JSON.stringify(formData),
               headers: {
@@ -40,7 +40,7 @@ const Signup = () => {
               .then((res) => res.json())
               .then((data) => {
                 console.log(data);
-                login({ name: formData.name, email: formData.email });
+                // login({ name: formData.name, email: formData.email });
                 navigate("/login");
               });            
         } catch (err) {

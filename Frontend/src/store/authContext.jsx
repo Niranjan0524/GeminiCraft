@@ -21,11 +21,31 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(()=>{
     const token=localStorage.getItem('token')||null;
+ 
     if(IsTokenExpired(token)){
       logout();
     }
-    setToken(token);
-  },[token]);
+    else{
+
+      setToken(token);
+     fetch("http://localhost:3000/api/user/getUser", {
+       method: "GET",
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     })
+       .then((res) => res.json())
+       .then((data) => {
+         console.log("data", data);
+         setUser(data.user);
+         localStorage.setItem("user", JSON.stringify(data.user));
+       })
+       .catch((err) => {
+         console.log("error", err);
+       });
+    }
+  },[]);
+
  const [isLoggedIn, setIsLoggedIn] = useState(
    localStorage.getItem("isLoggedIn") || false
  );
@@ -53,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout,token }}>
+    <AuthContext.Provider value={{ isLoggedIn, user,setUser, login, logout,token }}>
       {children}
     </AuthContext.Provider>
   );
