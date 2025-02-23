@@ -121,7 +121,9 @@ function Sidebar() {
   return (
     <div
       className={`${
-        isDarkTheme ? "bg-gray-900 text-gray-100" : "bg-white text-gray-800"
+        isDarkTheme
+          ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white"
+          : "bg-gradient-to-b from-white-200 to-gray-800 text-gray-900"
       } h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
       } transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
@@ -129,7 +131,7 @@ function Sidebar() {
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
           <span className="font-semibold text-3xl bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent">
-            GeminiCraft
+            ChatNova
           </span>
         )}
         <button

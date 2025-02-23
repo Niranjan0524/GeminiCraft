@@ -10,6 +10,7 @@ import ChatHeader from "./ChatHeader";
 import { useTheme } from "../store/themeContext";
 import Notification from "./Notification";
 import { useAuth } from "../store/authContext";
+import { RiSendPlaneFill } from "react-icons/ri";
 
 const Chat = () => {
   const { id } = useParams();
@@ -141,10 +142,10 @@ const Chat = () => {
           messages.length === 0 ? "New Chat" : currentChat?.title || "Chat"
         }
       />
-      
+
       <div
         className={`flex flex-col h-[90vh] ${
-          isDarkTheme ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+          isDarkTheme ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white" : "bg-gradient-to-b from-white to-gray-800 text-gray-900"
         } font-mono items-center justify-center`}
       >
         <div className="flex flex-col w-full max-w-3xl h-full">
@@ -179,10 +180,10 @@ const Chat = () => {
                       </option>
                     </select>
                     <button
-                      className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="ml-2 p-4 bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       onClick={handleSend}
                     >
-                      <MdOutlineSend className="h-6 w-6" />
+                      <RiSendPlaneFill className="h-6 w-6" />
                     </button>
                   </div>
                 </div>
@@ -229,10 +230,10 @@ const Chat = () => {
                   </option>
                 </select>
                 <button
-                  className="ml-2 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="ml-2 p-4 bg-gradient-to-r from-gray-600 to-red-600 hover:from-gray-500 hover:to-red-500 text-white rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   onClick={handleSend}
                 >
-                  <MdOutlineSend className="h-6 w-6" />
+                  <RiSendPlaneFill className="h-6 w-6" />
                 </button>
               </div>
             </div>

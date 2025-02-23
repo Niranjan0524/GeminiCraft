@@ -27,8 +27,8 @@ const ChatHeader = ({ status }) => {
     <div
       className={`flex justify-between items-center font-mono p-4 ${
         isDarkTheme
-          ? "bg-gray-900 text-white"
-          : "bg-white text-gray-800 border-b border-gray-200"
+          ? "bg-gray-800 text-white"
+          : "bg-white text-gray-800 "
       }`}
     >
       <button
