@@ -67,8 +67,7 @@ exports.preSignup = [
 
 exports.postSignup =  (req, res) => {
   const { name, userName, email, password } = req.body;
-
-  console.log(name, userName, email, password);
+  
   bcrypt.hash(password, 12).then((hashedPassword) => {
     const user = new User({
       name: name,
@@ -98,7 +97,6 @@ exports.login=async(req,res)=>{
 
 
   const {email,password}=req.body;
-  console.log(req.body);
 
   const user=await User.findOne({
     email
@@ -143,23 +141,19 @@ exports.login=async(req,res)=>{
 
 
 exports.editProfile=async(req,res)=>{
-  const {username,email}=req.body;
-
-  console.log("inside controller ",username,email);
+  const {userName,email}=req.body;
 
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
   const token = authHeader.split(" ")[1];
-  console.log("token in controller", token);
-  const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-  console.log("userId", userId);
  
+  const { userId } = jwt.verify(token, process.env.JWT_SECRET);
 
   try{
     const user=await User.findById(userId);
-    user.userName=username;
+    user.userName=userName;
     await user.save();
     res.json({ success: true, message: "Profile Updated", user :user});
   }

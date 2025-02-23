@@ -42,8 +42,8 @@ const Profile = () => {
     const handleSave = () => {
         
         const token=localStorage.getItem('token')||null;
-        console.log("token in frontend",token);
-        if (editedData.userName !== user.name) {
+      
+        if (editedData.userName !== user.userName) {
           fetch(`http://localhost:3000/api/user/edit`, {
             method: "PUT",
             headers: {
@@ -176,8 +176,8 @@ const Profile = () => {
                                 {isEditing ? (
                                     <input
                                         type="text"
-                                        value={editedData.username}
-                                        onChange={(e) => setEditedData({...editedData, username: e.target.value})}
+                                        value={editedData.userName}
+                                        onChange={(e) => setEditedData({...editedData, userName: e.target.value})}
                                         className={`w-full p-2 rounded-md ${
                                             isDarkTheme 
                                                 ? 'bg-gray-700 text-white' 
