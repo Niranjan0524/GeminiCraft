@@ -52,7 +52,7 @@ const ChatHeader = ({ status }) => {
             <div className="ml-2 bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent font-semibold">
             Hello, 
             
-            {isLoggedIn && user.name}
+            {isLoggedIn && user.userName}
             {!isLoggedIn && "User"}
             </div >
             <button

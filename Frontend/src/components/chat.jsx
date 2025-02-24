@@ -145,7 +145,7 @@ const Chat = () => {
 
       <div
         className={`flex flex-col h-[90vh] ${
-          isDarkTheme ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white" : "bg-gradient-to-b from-white to-gray-800 text-gray-900"
+          isDarkTheme ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white" : " text-gray-900"
         } font-mono items-center justify-center`}
       >
         <div className="flex flex-col w-full max-w-3xl h-full">
