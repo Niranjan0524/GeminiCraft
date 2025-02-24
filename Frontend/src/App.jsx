@@ -7,16 +7,17 @@ import Profile from './components/Profile';
 import { AuthProvider } from './store/authContext';
 import Login from './components/Login';
 import Signup from './components/Signup';
-
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
+
     <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
           <ChatProvider>
             <div>
-
+              <Toaster />
               <Routes>
               <Route path="/" element={<ChatLayout />}>
                 <Route path="/conversation/:id" element={<Chat />} />

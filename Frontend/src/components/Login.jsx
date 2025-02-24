@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../store/themeContext';
 import { useAuth } from '../store/authContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const { isDarkTheme } = useTheme();
@@ -15,6 +15,9 @@ const Login = () => {
     });
     const [error, setError] = useState('');
 
+    const notify = (message) => {
+        toast.success(message);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,6 +36,7 @@ const Login = () => {
 
                 if(data.user){
                     login(data);
+                    notify(data.message);
                     navigate("/");
                 }
                 else{

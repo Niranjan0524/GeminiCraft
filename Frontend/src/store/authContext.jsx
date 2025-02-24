@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const decodedToken=jwtDecode(token);
-    const currentTime=Date.now()/1000;//basically it will convert the date to seconds
+    const currentTime=Date.now()/1000;
 
     return decodedToken.exp < currentTime;
   }
