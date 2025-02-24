@@ -125,7 +125,7 @@ const Profile = () => {
                                 <div className={`h-full w-full rounded-full flex items-center justify-center text-2xl font-bold ${
                                     isDarkTheme ? 'bg-gray-800' : 'bg-white'
                                 }`}>
-                                    {profileData.name}
+                                    {/* {profileData.name} */}
                                 </div>
                             </div>
                             <div>
