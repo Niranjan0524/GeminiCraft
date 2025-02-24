@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../store/themeContext';
 import { useAuth } from '../store/authContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
+import toast ,{Toaster} from 'react-hot-toast';
 
 const Signup = () => {
     const { isDarkTheme } = useTheme();
@@ -17,13 +17,17 @@ const Signup = () => {
         confirmPassword: ''
     });
 
+    const notify = (message) =>{
+         toast.success(message);
+    }
+   
     const navigate=useNavigate();
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // Basic validation
+  
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;
@@ -39,12 +43,12 @@ const Signup = () => {
             })
               .then((res) => res.json())
               .then((data) => {
-                console.log(data);
-                // login({ name: formData.name, email: formData.email });
+                notify(data.message)
                 navigate("/login");
               });            
         } catch (err) {
-            setError(err.message);
+            // setError(err.message);
+            notify(err.message);
         }
     };
 

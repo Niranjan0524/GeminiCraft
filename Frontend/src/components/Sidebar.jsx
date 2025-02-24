@@ -258,7 +258,9 @@ function Sidebar() {
                 isDarkTheme ? "hover:bg-gray-700" : "hover:bg-gray-200"
               } p-2 rounded`}
             >
-              Contribute
+              <a href="https://github.com/Niranjan0524/GeminiCraft" target="_blank">
+                Contribute
+              </a>
             </li>
           </ul>
         </div>
@@ -268,4 +270,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-

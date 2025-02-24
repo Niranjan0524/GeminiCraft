@@ -79,14 +79,14 @@ exports.postSignup =  (req, res) => {
     user
       .save()
       .then((result) => {
-        console.log("User Created Successfully");
+        
         return res.status(201).json({
-            message:"User Logged in successfully"
+            message:"Account Created Successfully"
         })
       })
       .catch((error) => {
         return res.status(500).json({
-            message:"User not created",
+            message:"Account not created,Try again later!",
         })
       });
   }); 
@@ -127,7 +127,7 @@ exports.login=async(req,res)=>{
   )
 
   res.json({
-    message:"User Logged in successfully",
+    message:"Logged in successfully",
     user:{
       name:user.name,
       email:user.email,
