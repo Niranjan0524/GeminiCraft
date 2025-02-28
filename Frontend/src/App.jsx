@@ -11,7 +11,6 @@ import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
-
     <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
@@ -19,14 +18,14 @@ function App() {
             <div>
               <Toaster />
               <Routes>
-              <Route path="/" element={<ChatLayout />}>
-                <Route path="/conversation/:id" element={<Chat />} />
-                <Route path="/" element={<Chat />} />                
-              </Route>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-            </Routes>
+                <Route path="/" element={<ChatLayout />}>
+                  <Route path="/conversation/:id" element={<Chat />} />
+                  <Route path="/" element={<Chat />} />
+                </Route>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+              </Routes>
             </div>
           </ChatProvider>
         </AuthProvider>

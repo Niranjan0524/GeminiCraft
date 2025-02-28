@@ -12,7 +12,6 @@ import { ChatContext } from '../store/chatContext';
 import { useContext } from 'react';
 import TitleComponent from './TitleComponent';
 import { MdDelete } from "react-icons/md";
-import Notification from './Notification';
 import { FaToggleOff } from "react-icons/fa6";
 import { FaToggleOn } from "react-icons/fa6";
 import { useTheme } from '../store/themeContext';
@@ -27,7 +26,7 @@ function Sidebar() {
     const [notification,setNotification] =useState("")
     const {isLoggedIn,token,logout} = useAuth();
     const navigate= useNavigate();
-  const {chats,addAllChats,addChat,deleteChat,updateChat}=useContext(ChatContext);
+  const {chats,addAllChats,addChat,deleteChat,deleteAllChats,updateChat}=useContext(ChatContext);
 
   const showNotification = (message) => {
     setNotification(message);
@@ -63,10 +62,13 @@ function Sidebar() {
       try {
         setIsLoading(true);
         console.log("Token inside fetchConversations:",token);
-        if(!token){
+        if(!token || token === null){
+          console.log("Token not found");
+          deleteAllChats();        
           setConversations([]);
           return ;
         }
+        else{
         const response = await fetch("http://localhost:3000/api/conversation", {
           method: "GET",
           headers: {
@@ -76,7 +78,7 @@ function Sidebar() {
         const data = await response.json();
         console.log("Data from the server in sidebar:",data);
         addAllChats(data.conversations);    
-
+      }
       } catch (error) {
         console.error("Error loading conversations:", error);
         setConversations([]);
