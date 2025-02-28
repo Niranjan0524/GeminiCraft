@@ -17,6 +17,9 @@ export const chatReducer = (currentState, action) => {
     case "FETCH_CHATS": {
       return currentState.find((chat) => chat._id === action.payload);
     }
+    case "DELETE_ALL_CHATS": {
+      return [];
+    }
     default: {
       return currentState;
     }

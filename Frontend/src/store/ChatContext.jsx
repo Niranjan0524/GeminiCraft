@@ -39,18 +39,26 @@ export const ChatProvider=({children})=>{
     })    
   }
 
+   const deleteAllChats = () => {
+     dispatch({
+       type: "DELETE_ALL_CHATS",
+     });
+   };
+   
    const fetchChats = (id) => {
     dispatch({
       type: "FETCH_CHATS",
       payload: id,
     });
 
+  
   };
 
   return (
     <ChatContext.Provider
       value={{
         chats,
+        deleteAllChats,
         addAllChats,
         addChat,
         deleteChat,

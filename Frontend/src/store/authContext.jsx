@@ -2,9 +2,11 @@ import React, { createContext, useState, useContext } from 'react';
 import { useEffect } from 'react';
 import {jwtDecode} from "jwt-decode";
 
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
 
   const IsTokenExpired=(token)=>{
     if(!token){
@@ -15,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const currentTime=Date.now()/1000;
 
     return decodedToken.exp < currentTime;
+  
   }
   const [user, setUser] = useState(localStorage.getItem("user") || null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
@@ -23,12 +26,14 @@ export const AuthProvider = ({ children }) => {
     const token=localStorage.getItem('token')||null;
  
     if(IsTokenExpired(token)){
+      console.log("Token Expired and logging out");
+     
       logout();
     }
     else{
-
+      console.log("Token is not expired , signed in ");
       setToken(token);
-     fetch("http://localhost:3000/api/user/getUser", {
+     fetch("http://localhost:3000/api/user/getUser",{
        method: "GET",
        headers: {
          Authorization: `Bearer ${token}`,
@@ -64,6 +69,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+
     setIsLoggedIn(false);
     setUser(null);
     setToken(null);
