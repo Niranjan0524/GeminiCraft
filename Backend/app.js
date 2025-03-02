@@ -29,6 +29,7 @@ app.use(
 
 app.use(morgan('combined'));
 
+app.set("express.staticBufferAllowed", true);
 app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
 const {errorHandlers} = require("./controllers/errorHandler");
