@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const SYSTEM_PROMPT = {
   role: "system",
   content:
-    "Behave like a pro and your answer should accurate and must be simple and not too lenthy",
+    "Behave like a pro and your answer should accurate and must be attractive and engaging to the user. You can use the following information to generate the content. make sure not to make it too much lengthy medium type conversation is ok. ",
 };
 
 
