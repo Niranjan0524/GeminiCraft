@@ -8,6 +8,8 @@ import {
   XMarkIcon 
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../store/authContext';
+import { useContext } from 'react';
+import { ChatContext } from '../store/chatContext';
 
 
 const Profile = () => {
@@ -16,7 +18,7 @@ const Profile = () => {
     const [error,setError]=useState("");
    
     const user=JSON.parse(localStorage.getItem("user"))||{name:"User"};
-
+    const {chats}=useContext(ChatContext);
     
     console.log("user in profile section",user);   
 
@@ -25,10 +27,8 @@ const Profile = () => {
       email: user.email || "user@gmail.com",
       userName: user.userName || "newUser_default",
       preferredModel: "gemini-1.5-pro",
-      totalChats: user.conversations
-        ? user.conversations.length
-        : 0,
-      joinedDate: "January 2024",
+      totalChats:chats.length>0? chats.length:0,
+      joinedDate: "Feb 2025",
     });
     const [editedData, setEditedData] = useState({...profileData});
     const navigate = useNavigate();
