@@ -26,8 +26,8 @@ app.use(
 );
 
 // Set up Morgan to log HTTP requests to a file
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
+
+app.use(morgan('combined'));
 
 // app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
