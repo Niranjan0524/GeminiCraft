@@ -10,6 +10,7 @@ import Signup from './components/Signup';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
+  console.log("backend url", import.meta.env.VITE_BACKEND_URL);
   return (
     <ThemeProvider>
       <BrowserRouter>
