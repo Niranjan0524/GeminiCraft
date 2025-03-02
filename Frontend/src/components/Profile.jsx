@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useTheme } from '../store/themeContext';
+import { useTheme } from '../store/ThemeContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeftIcon,
@@ -7,9 +7,9 @@ import {
   CheckIcon,
   XMarkIcon 
 } from '@heroicons/react/24/outline';
-import { useAuth } from '../store/authContext';
+import { useAuth } from '../store/AuthContext';
 import { useContext } from 'react';
-import { ChatContext } from '../store/chatContext';
+import { ChatContext } from '../store/ChatContext';
 
 
 const Profile = () => {

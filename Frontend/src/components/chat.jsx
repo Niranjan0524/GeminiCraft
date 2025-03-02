@@ -1,15 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import { MdOutlineSend } from "react-icons/md";
-import { ChatContext } from "../store/chatContext";
+import { ChatContext } from "../store/ChatContext";
 import { useParams, useNavigate } from "react-router-dom";
 import SkeletalLoader from "./SkeletalLoader";
 import ReactMarkdown from "react-markdown";
 import React from "react";
 import UserReaction from "./UserReactions";
 import ChatHeader from "./ChatHeader";
-import { useTheme } from "../store/themeContext";
-import Notification from "./Notification";
-import { useAuth } from "../store/authContext";
+import { useTheme } from "../store/ThemeContext";
+import { useAuth } from "../store/AuthContext";
 import { RiSendPlaneFill } from "react-icons/ri";
 
 const Chat = () => {

@@ -1,6 +1,6 @@
 import { MdDelete } from "react-icons/md";
 import { useContext } from "react";
-import { ChatContext } from "../store/chatContext";
+import { ChatContext } from "../store/ChatContext";
 import { useState } from "react";
 import TimeParsing from "./TimeParsing";
 
