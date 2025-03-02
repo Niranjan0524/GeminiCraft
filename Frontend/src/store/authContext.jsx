@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     else{
       console.log("Token is not expired , signed in ");
       setToken(token);
-     fetch("http://localhost:3000/api/user/getUser",{
+     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/getUser`,{
        method: "GET",
        headers: {
          Authorization: `Bearer ${token}`,

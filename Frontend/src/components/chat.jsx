@@ -34,7 +34,7 @@ const Chat = () => {
         setCurrentChat(chat);
         setMessages(chat.messages);
       } else {
-        fetch(`http://localhost:3000/api/conversation`, {
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ const Chat = () => {
     setInput("");
     setMessages([...messages, { content: input, role: "user" }]);
     if (messages.length === 0) {
-      fetch("http://localhost:3000/api/conversation", {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const Chat = () => {
         });
     } else {
       setLoading(true);
-      fetch(`http://localhost:3000/api/conversation/${currentChat._id}`, {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation/${currentChat._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

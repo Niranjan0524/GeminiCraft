@@ -40,7 +40,7 @@ function Sidebar() {
     console.log("Deleteing: ",id);
     console.log("Token inside handleDelete:",token);
     // showNotification("Chat Deleted");
-    fetch(`http://localhost:3000/api/conversation/${id}`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -69,12 +69,15 @@ function Sidebar() {
           return ;
         }
         else{
-        const response = await fetch("http://localhost:3000/api/conversation", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/conversation`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         console.log("Data from the server in sidebar:",data);
         addAllChats(data.conversations);    
@@ -174,9 +177,8 @@ function Sidebar() {
           <div className="text-gray-400 text-sm px-2">Loading...</div>
         ) : chats.length > 0 ? (
           chats.map((chat) => (
-            <div className="flex items-center">
+            <div className="flex items-center" key={chat._id}>
               <Link
-                key={chat._id}
                 to={`/conversation/${chat._id}`}
                 className="flex items-center gap-2 px-2 py-3 rounded-lg hover:bg-gradient-to-r 
               hover:from-gray-700 hover:to-gray-600 transition-colors duration-200 mb-1 flex-grow"
@@ -260,7 +262,10 @@ function Sidebar() {
                 isDarkTheme ? "hover:bg-gray-700" : "hover:bg-gray-200"
               } p-2 rounded`}
             >
-              <a href="https://github.com/Niranjan0524/GeminiCraft" target="_blank">
+              <a
+                href="https://github.com/Niranjan0524/GeminiCraft"
+                target="_blank"
+              >
                 Contribute
               </a>
             </li>

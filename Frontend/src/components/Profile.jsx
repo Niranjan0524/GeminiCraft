@@ -44,7 +44,7 @@ const Profile = () => {
         const token=localStorage.getItem('token')||null;
       
         if (editedData.userName !== user.userName) {
-          fetch(`http://localhost:3000/api/user/edit`, {
+          fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/edit`, {
             method: "PUT",
             headers: {
               "content-type": "application/json",

@@ -23,7 +23,7 @@ const Login = () => {
         e.preventDefault();
         console.log(formData);
         try {
-            fetch("http://localhost:3000/api/user/login",{
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/login`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"

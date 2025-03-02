@@ -34,7 +34,7 @@ const Signup = () => {
         }
         console.log("client side:",formData);
         try {
-            fetch('http://localhost:3000/api/user/signup', {
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/signup`, {
               method: "POST",
               body: JSON.stringify(formData),
               headers: {
