@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useTheme } from '../store/themeContext';
-import { useAuth } from '../store/authContext';
+import { useTheme } from '../store/ThemeContext';
+import { useAuth } from '../store/AuthContext';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 

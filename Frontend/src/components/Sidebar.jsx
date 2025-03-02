@@ -8,14 +8,14 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/24/outline';
-import { ChatContext } from '../store/chatContext';
+import { ChatContext } from '../store/ChatContext';
 import { useContext } from 'react';
 import TitleComponent from './TitleComponent';
 import { MdDelete } from "react-icons/md";
 import { FaToggleOff } from "react-icons/fa6";
 import { FaToggleOn } from "react-icons/fa6";
-import { useTheme } from '../store/themeContext';
-import { useAuth } from '../store/authContext';
+import { useTheme } from '../store/ThemeContext';
+import { useAuth } from '../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
