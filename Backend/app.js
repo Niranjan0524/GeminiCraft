@@ -10,8 +10,11 @@ const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter=require('./routers/useRouter');
-
+const helmet = require("helmet");
+const compression = require("compression");
 const app = express();
+const morgan = require("morgan");
+const fs = require("fs");
 
 const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@xdb.mjwzy.mongodb.net/${process.env.MONGO_DB_DATABASE}`;
 
@@ -22,15 +25,19 @@ app.use(
   })
 );
 
+// Set up Morgan to log HTTP requests to a file
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }));
+
 // app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
 const {errorHandlers} = require("./controllers/errorHandler");
 
 const {conversationRouter} = require("./routers/conversationRouter"); 
 
-const session=require("express-session")
 
-
+app.use(helmet());
+app.use(compression());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
