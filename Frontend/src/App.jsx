@@ -1,5 +1,5 @@
 import { BrowserRouter ,Routes,Route } from 'react-router-dom';
-import ChatLayout from './layout/chatLayout';
+import ChatLayout from './layout/ChatLayout';
 import Chat from './components/chat';
 import { ChatProvider } from './store/chatContext';
 import { ThemeProvider } from './store/themeContext';
