@@ -29,7 +29,8 @@ app.use(
 
 app.use(morgan('combined'));
 
-app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+const staticPath = path.join(__dirname, "../Frontend/dist");
+app.use(express.static(staticPath));
 
 const {errorHandlers} = require("./controllers/errorHandler");
 
@@ -56,12 +57,12 @@ app.use((req, res, next) => {
 app.use("/api", conversationRouter);
 
 app.use("/api/user",userRouter);
-
-app.use(errorHandlers);
-
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend/dist", "index.html"));
 });
+
+app.use(errorHandlers);
+
 
 const port = process.env.PORT || 3000;
 
