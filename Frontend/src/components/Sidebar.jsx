@@ -131,7 +131,7 @@ function Sidebar() {
           : "bg-gradient-to-b from-white-200 to-gray-800 text-gray-900"
       } h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
-      } transition-all duration-300 ease-in-out relative flex flex-col font-mono`}
+      } transition-all duration-300 ease-in-out relative flex flex-col font-mono max-w-[38rem]`}
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (

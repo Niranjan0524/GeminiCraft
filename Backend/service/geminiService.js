@@ -5,13 +5,13 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const SYSTEM_PROMPT = {
   role: "system",
   content:
-    "Behave like a pro and your answer should accurate and must be attractive and engaging to the user. You can use the following information to generate the content. make sure not to make it too much lengthy medium type conversation is ok. ",
+    "Behave like a pro and your answer should accurate and it should be in maximum 50 - 100 words. ",
 };
 
 
 const TITLE_PROMPT={
   role:"system",
-  content:"generate a title for given below content of the user no more than 4 words to make it heading of the conversation."
+  content:"generate a title for given below content of the user less than 5 words to make it heading of the conversation."
 }
 
 const createMessagesString = (messages) => {
@@ -42,7 +42,6 @@ const generateContent = async (
 
   try{
     const result = await model.generateContent(finalPrompt);
-    // console.log("Response in :", result.response.text());
      return {
       response: result.response.text(),
     };

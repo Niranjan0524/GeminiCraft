@@ -57,9 +57,9 @@ app.use((req, res, next) => {
 app.use("/api", conversationRouter);
 
 app.use("/api/user",userRouter);
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend/dist", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "../Frontend/dist", "index.html"));
+// });
 
 app.use(errorHandlers);
 
