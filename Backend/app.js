@@ -21,6 +21,7 @@ const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_
 app.use(
   cors({
     origin: "https://gemini-craft-frontend.vercel.app",
+    // origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
@@ -29,7 +30,6 @@ app.use(
 
 app.use(morgan('combined'));
 
-app.set("express.staticBufferAllowed", true);
 app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 
 const {errorHandlers} = require("./controllers/errorHandler");
@@ -59,6 +59,10 @@ app.use("/api", conversationRouter);
 app.use("/api/user",userRouter);
 
 app.use(errorHandlers);
+
+app.get('https://gemini-craft-frontend.vercel.app', (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
+});
 
 const port = process.env.PORT || 3000;
 
