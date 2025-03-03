@@ -1,4 +1,3 @@
-
 const ENV = process.env.NODE_ENV || "development";
 require("dotenv").config({
   path: `.env.${ENV}`,
@@ -20,8 +19,8 @@ const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_
 
 app.use(
   cors({
-    origin: "https://gemini-craft-frontend.vercel.app",
-    // origin: "*",
+    // origin: "https://gemini-craft-frontend.vercel.app",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
@@ -43,9 +42,9 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.get("/", (req, res) => {
-  res.send("Welcome to ChatNova");
-});
+// app.get("/", (req, res) => {
+//   res.send("Welcome to ChatNova");
+// });
 
 app.use((req, res, next) => {
   console.log("Request Recived");
@@ -60,8 +59,8 @@ app.use("/api/user",userRouter);
 
 app.use(errorHandlers);
 
-app.get('https://gemini-craft-frontend.vercel.app', (req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/dist", "index.html"));
 });
 
 const port = process.env.PORT || 3000;
