@@ -94,8 +94,6 @@ exports.postSignup =  (req, res) => {
 
 
 exports.login=async(req,res)=>{
-
-
   const {email,password}=req.body;
 
   const user=await User.findOne({
@@ -188,3 +186,4 @@ exports.getUser=async(req,res)=>{
    return res.status(404).json({message:err.message});
  }
 }
+
