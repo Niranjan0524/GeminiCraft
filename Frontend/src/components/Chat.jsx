@@ -10,6 +10,7 @@ import ChatHeader from "./ChatHeader";
 import { useTheme } from "../store/ThemeContext";
 import { useAuth } from "../store/AuthContext";
 import { RiSendPlaneFill } from "react-icons/ri";
+import CodeBlock from "./CodeBlock";
 
 const Chat = () => {
   const { id } = useParams();
@@ -110,8 +111,7 @@ const Chat = () => {
       fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation/${currentChat._id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
-          
+          "Content-Type": "application/json",          
         },
         body: JSON.stringify({
           prompt: input,
@@ -144,7 +144,9 @@ const Chat = () => {
 
       <div
         className={`flex flex-col h-[90vh] ${
-          isDarkTheme ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white" : " text-gray-900"
+          isDarkTheme
+            ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white"
+            : " text-gray-900"
         } font-mono items-center justify-center`}
       >
         <div className="flex flex-col w-full max-w-3xl h-full">
@@ -198,7 +200,24 @@ const Chat = () => {
                         : "self-start text-left"
                     }`}
                   >
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        code({ node, inline, className, children, ...props }) {
+                          const match = /language-(\w+)/.exec(className || "");
+                          const code = String(children).replace(/\n$/, "");
+                          return !inline && match ? (
+                            <CodeBlock code={code} language={match[1]} />
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
+                      }}
+                    >
+                      {message.content}
+                    </ReactMarkdown>
+
                     {message.role !== "user" && <UserReaction />}
                   </div>
                 ))}
