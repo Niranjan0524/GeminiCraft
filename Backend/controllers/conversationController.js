@@ -100,8 +100,10 @@ exports.getConversation=async(req,res)=>{
    return res.status(401).json({ message: "Unauthorized: No token provided" });
  }
 
+ console.log("AuthHeader:",authHeader);
  const token = authHeader.split(" ")[1];
- if (!token) {
+ console.log("Token:",token ,!token);
+ if(token==null || !token) {
    return res.status(401).json({ message: "Unauthorized: No token provided" });
  }
 

@@ -60,7 +60,7 @@ app.use("/api/user",userRouter);
 app.use(errorHandlers);
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 mongoose
   .connect(url)

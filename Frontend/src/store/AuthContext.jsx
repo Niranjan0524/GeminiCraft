@@ -9,10 +9,11 @@ export const AuthProvider = ({ children }) => {
 
 
   const IsTokenExpired=(token)=>{
-    if(!token){
+    if (!token) {
       return true;
     }
 
+    console.log("Token inside isTokenExpired:",token);
     const decodedToken=jwtDecode(token);
     const currentTime=Date.now()/1000;
 

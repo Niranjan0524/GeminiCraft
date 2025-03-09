@@ -66,6 +66,7 @@ function Sidebar() {
           console.log("Token not found");
           deleteAllChats();        
           setConversations([]);
+          
           return ;
         }
         else{
