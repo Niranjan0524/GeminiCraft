@@ -47,10 +47,10 @@ const handleIconClick = (icon) => {
 
   return (
     <>
-      <div className="flex items-center justify-start space-x-2 mt-0"> 
+      <div className="flex items-center justify-start space-x-2 mt-5 "> 
         <div className="relative group">
         <button
-        className="p-1 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors"
+        className="p-1  text-white rounded-full hover:bg-gray-800 transition-colors"
         title="Liked"
         aria-label="Copy to Text..."
         onClick={() => { handleIconClick('like') }}
@@ -61,7 +61,7 @@ const handleIconClick = (icon) => {
       </div>
       <div className="relative group">
         <button
-        className="p-1 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors"
+        className="p-1  text-white rounded-full hover:bg-gray-800 transition-colors"
         title="Dislike to Rewind"
         aria-label="Dislike to Rewind"
         onClick={() => { handleIconClick('dislike') }}
@@ -72,7 +72,7 @@ const handleIconClick = (icon) => {
       </div>
       <div className="relative group">
         <button
-        className="p-1 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors"
+        className="p-1  text-white rounded-full hover:bg-gray-800 transition-colors"
         title="Copy to Text..."
         aria-label="Copy to Text..."
         onClick={() => { handleCopy(content) }}
@@ -85,7 +85,7 @@ const handleIconClick = (icon) => {
       </div>
       <div className="relative group">
         <button
-        className="p-1 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors"
+        className="p-1  text-white rounded-full hover:bg-gray-800 transition-colors"
         title="Try Again"
         aria-label="Try Again"
         onClick={() => { handleIconClick('retry') }}

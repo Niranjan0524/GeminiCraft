@@ -216,6 +216,7 @@ const Chat = () => {
                       }}
                     >
                       {message.content}
+                      
                     </ReactMarkdown>
 
                     {message.role !== "user" && <UserReaction />}
