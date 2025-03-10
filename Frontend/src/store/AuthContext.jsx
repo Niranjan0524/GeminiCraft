@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
 
   const IsTokenExpired=(token)=>{
-    if (!token) {
+    if (!token || token===null) {
       return true;
     }
 
