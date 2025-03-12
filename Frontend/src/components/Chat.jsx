@@ -196,8 +196,8 @@ const Chat = () => {
                     key={index}
                     className={`inline-block w-full max-w-full p-4 my-2 rounded-lg break-words ${
                       message.role === "user"
-                        ? "self-end text-right"
-                        : "self-start text-left"
+                        ? "self-end text-right text-gray "
+                        : "self-start text-left text-gray"
                     }`}
                   >
                     <ReactMarkdown
