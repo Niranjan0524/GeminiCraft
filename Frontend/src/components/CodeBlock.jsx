@@ -39,13 +39,11 @@ const CodeBlock=({code,language})=>{
         language={language}
         style={atomDark}
         customStyle={{
-          margin: 0, // Override default margins
           background: "#1e1e1e", // Custom background
           padding: "15px", // Inner padding
           fontFamily: "Consolas",
           margin: " 15px 0px",
-          borderRadius: "5px",
-          border: "5px solid gray",
+          border: "1px solid gray",
         }}
       >
         {code}
