@@ -17,6 +17,7 @@ import { FaToggleOn } from "react-icons/fa6";
 import { useTheme } from '../store/ThemeContext';
 import { useAuth } from '../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { MdDashboardCustomize } from "react-icons/md";
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -222,7 +223,18 @@ function Sidebar() {
           <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
           {!isCollapsed && <span>Logout</span>}
         </button>
+
+        <Link to="/dashboard">
+          <button
+            className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
+            hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
+          >
+            <MdDashboardCustomize className="h-5 w-5 text-gray-400" />
+            {!isCollapsed && <span>Dashboard</span>}
+          </button>
+        </Link>
       </div>
+
       {showSettings && (
         <div
           className={`absolute right-0 bottom-16 ${
