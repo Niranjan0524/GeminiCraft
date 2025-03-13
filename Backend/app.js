@@ -19,7 +19,7 @@ const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_
 
 app.use(
   cors({
-    origin:process.env.originURL,
+    origin: process.env.ORIGIN_URL,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
