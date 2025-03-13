@@ -19,8 +19,7 @@ const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_
 
 app.use(
   cors({
-    // origin: "https://gemini-craft-frontend.vercel.app",
-    origin: "*",
+    origin:process.env.originURL,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
