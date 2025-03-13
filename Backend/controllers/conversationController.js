@@ -19,9 +19,10 @@ exports.newConversation=async(req,res)=>{
 
     try {
       const finaltitle = await generateTitle(prompt, model);
-
+      console.log("Final Title:",finaltitle);
       const result = await generateContent(prompt, model);
 
+      console.log("Result:",result);
       const conversation1 = new Conversation({
         title: finaltitle,
         model: model,
@@ -48,6 +49,7 @@ exports.newConversation=async(req,res)=>{
       else{
         return res.status(404).json({message:"user not found"});
       }
+      console.log("Conversation:",conversation1);
       res.json({ conversation1 });
     } catch (error) {
       if (error.status === 503) {
