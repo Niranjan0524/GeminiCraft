@@ -8,7 +8,7 @@ import Signup from "./components/Signup";
 import { Toaster } from "react-hot-toast";
 import { ChatProvider } from "./store/ChatContext"; // Ensure correct casing
 import Chat from "./components/Chat";
-
+import Dashboard from "./components/Dashboard";
 function App() {
   console.log("backend url", import.meta.env.VITE_BACKEND_URL);
   return (
@@ -26,6 +26,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/dashboard" element={<Dashboard/>}/>
               </Routes>
             </div>
           </ChatProvider>
