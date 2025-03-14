@@ -15,11 +15,10 @@ const Login = () => {
     });
     const [error, setError] = useState('');
 
-    const notify = (message) => {
-        toast.success(message);
-    };
+   
 
     const handleSubmit = async (e) => {
+        const toastId=toast.loading("Logging in...");
         e.preventDefault();
         console.log(formData);
         try {
@@ -36,11 +35,12 @@ const Login = () => {
 
                 if(data.user){
                     login(data);
-                    notify(data.message);
+                    toast.success("Logged in successfully",{id:toastId});
                     navigate("/");
                 }
                 else{
                     setError(data.message);
+                    toast.error(data.message,{id:toastId});
                 }
             })
             

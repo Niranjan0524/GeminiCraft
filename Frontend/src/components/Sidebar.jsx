@@ -107,7 +107,10 @@ function Sidebar() {
     if(isLoggedIn){
       navigate("/profile");
     }
-    setNotification("Please login to view profile")
+    else
+    {
+      navigate("/login");
+    }
   }
 
 
@@ -215,24 +218,15 @@ function Sidebar() {
           <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
           {!isCollapsed && <span>Settings</span>}
         </button>
-        <button
+        {chats.length>0?<button
           className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
           onClick={handleLogout}
         >
           <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
+
           {!isCollapsed && <span>Logout</span>}
         </button>
-
-        <Link to="/dashboard">
-          <button
-            className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
-            hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
-          >
-            <MdDashboardCustomize className="h-5 w-5 text-gray-400" />
-            {!isCollapsed && <span>Dashboard</span>}
-          </button>
-        </Link>
       </div>
 
       {showSettings && (
