@@ -112,6 +112,12 @@ function Sidebar() {
     }
   }
 
+  const handleDashboard=()=>{
+    console.log("Dashboard clicked");
+    if(isLoggedIn){
+      navigate("/dashboard");
+    }
+  }
 
   const handleLogout=()=>{
     console.log("Loggin Out");
@@ -217,17 +223,27 @@ function Sidebar() {
           <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
           {!isCollapsed && <span>Settings</span>}
         </button>
-        {chats.length>0?<button
+        <button
           className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
-          onClick={handleLogout}
+          onClick={handleDashboard}
         >
-          <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
+          <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
+          {!isCollapsed && <span>Dashboard</span>}
+        </button>
+        {chats.length > 0 ? (
+          <button
+            className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
+            hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
+            onClick={handleLogout}
+          >
+            <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
 
-          {!isCollapsed && <span>Logout</span>}
-        </button>:
-        <div></div>
-        }
+            {!isCollapsed && <span>Logout</span>}
+          </button>
+        ) : (
+          <div></div>
+        )}
       </div>
       {showSettings && (
         <div
