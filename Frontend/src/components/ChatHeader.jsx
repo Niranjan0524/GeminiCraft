@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../store/ThemeContext';
 import { useAuth } from '../store/AuthContext';
+import toast from 'react-hot-toast';
 
 const ChatHeader = ({ status }) => {
   const { isDarkTheme } = useTheme();
@@ -16,6 +17,7 @@ const ChatHeader = ({ status }) => {
     if(reply){
       logout();
       navigate("/login");
+      toast.success("Logged out successfully");
     }    
   };
 
