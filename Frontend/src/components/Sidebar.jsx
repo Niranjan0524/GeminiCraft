@@ -226,7 +226,9 @@ function Sidebar() {
           <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
 
           {!isCollapsed && <span>Logout</span>}
-        </button>
+        </button>:
+        <div> </div>}
+
       </div>
 
       {showSettings && (
