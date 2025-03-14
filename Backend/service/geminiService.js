@@ -23,9 +23,13 @@ const createMessagesString = (messages) => {
 
 const generateContent = async (
   prompt,
-  modelName = "gemini-1.5-flash",
+  modelName = "gemini-2.0-flash",
   messages = []
 ) => {
+  console.log("Prompt:", prompt);
+  console.log("Model Name:", modelName);
+  console.log("Messages:", messages);
+
   const newPrompt = {
     role: "user",
     content: prompt,
@@ -39,29 +43,36 @@ const generateContent = async (
 
   const model = genAI.getGenerativeModel({ model: modelName });
 
-
-  try{
+  try {
     const result = await model.generateContent(finalPrompt);
-     return {
+    return {
       response: result.response.text(),
     };
+  } catch (error) {
+    console.error("Error in generating content  ", error);
+    return { error: error.message };
   }
-  catch(error){
-    return new error;
-  }
- 
-  
 };
 
 
 const generateTitle=async(prompt,modelName)=>{
-
-   const model = genAI.getGenerativeModel({ model: modelName });
+  console.log("Prompt for Title:", prompt);
+ 
+  const model = genAI.getGenerativeModel({ model: modelName });
     
   const titlePrompt=createMessagesString([TITLE_PROMPT,{role:"user",content:prompt}]);
-  const title=await model.generateContent(titlePrompt);
-
-   return title.response.text();
+  console.log("Title Prompt:");
+  try{
+    console.log("hello");
+    const title=await model.generateContent(titlePrompt);
+    console.log("Title:",title.response.text());
+    return title.response.text();
+  }
+  catch(error){
+    console.error("Error in generating title",error);
+    return {error:error.message}; 
+  }
+   
 }
 
 module.exports = { generateContent ,generateTitle};

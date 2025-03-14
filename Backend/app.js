@@ -14,6 +14,8 @@ const compression = require("compression");
 const app = express();
 const morgan = require("morgan");
 const fs = require("fs");
+const rateLimit=require('express-rate-limit');
+
 
 const url = `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@xdb.mjwzy.mongodb.net/${process.env.MONGO_DB_DATABASE}`;
 
@@ -35,7 +37,13 @@ const {errorHandlers} = require("./controllers/errorHandler");
 
 const {conversationRouter} = require("./routers/conversationRouter"); 
 
+const limiter=rateLimit({
+  windowMs:1*60*1000,
+  max:10,
+  message:"Too many requests from this IP, please try again after an minute"
+})
 
+app.use(limiter);
 app.use(helmet());
 app.use(compression());
 app.use(express.json());

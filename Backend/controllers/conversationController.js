@@ -9,18 +9,19 @@ const {generateTitle} = require('../service/geminiService');
 exports.newConversation=async(req,res)=>{
 
     const {prompt,model,token}=req.body;  
-   
+
     if(!token){
       return res.status(401).json({message:"Unauthorized :No token provided"});
     }
 
     const {email,userId}=jwt.verify(token,process.env.JWT_SECRET);
 
-
     try {
+      console.log("inside try");
       const finaltitle = await generateTitle(prompt, model);
       console.log("Final Title:",finaltitle);
       const result = await generateContent(prompt, model);
+
 
       console.log("Result:",result);
       const conversation1 = new Conversation({
@@ -52,6 +53,7 @@ exports.newConversation=async(req,res)=>{
       console.log("Conversation:",conversation1);
       res.json({ conversation1 });
     } catch (error) {
+      console.log("Error inside catch of controller:",error);
       if (error.status === 503) {
         return res
           .status(503)

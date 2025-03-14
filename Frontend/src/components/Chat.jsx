@@ -11,6 +11,7 @@ import { useTheme } from "../store/ThemeContext";
 import { useAuth } from "../store/AuthContext";
 import { RiSendPlaneFill } from "react-icons/ri";
 import CodeBlock from "./CodeBlock";
+import toast from "react-hot-toast";
 
 const Chat = () => {
   const { id } = useParams();
@@ -24,7 +25,10 @@ const Chat = () => {
   const navigate = useNavigate();
   const { isDarkTheme } = useTheme();
   const { token } = useAuth();
-  
+
+  const notify = (message) => {
+    toast.error(message+" Please try again later.");
+  };
   
 
   useEffect(() => {
@@ -97,6 +101,7 @@ const Chat = () => {
             setMessages(data.conversation1.messages);
             navigate(`/conversation/${data.conversation1._id}`);
           } else {
+            notify(data.message);
             console.error("Invalid response data:", data);
           }
         })
