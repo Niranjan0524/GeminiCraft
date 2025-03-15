@@ -22,8 +22,11 @@ export const AuthProvider = ({ children }) => {
   }
   const [user, setUser] = useState(localStorage.getItem("user") || null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [loading,setLoading]=useState(false);
+
 
   useEffect(()=>{
+    setLoading(true);
     const token=localStorage.getItem('token')||null;
  
     if(IsTokenExpired(token)){
@@ -49,6 +52,7 @@ export const AuthProvider = ({ children }) => {
        .catch((err) => {
          console.log("error", err);
        });
+       setLoading(false);
     }
   },[]);
 
@@ -80,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user,setUser, login, logout,token }}>
+    <AuthContext.Provider value={{ isLoggedIn, user,setUser, login, logout,token,loading }}>
       {children}
     </AuthContext.Provider>
   );

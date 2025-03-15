@@ -6,10 +6,13 @@ import { AuthProvider } from "./store/AuthContext";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { Toaster } from "react-hot-toast";
-import { ChatProvider } from "./store/ChatContext"; // Ensure correct casing
-import Chat from "./components/Chat";
+import { ChatProvider } from "./store/ChatContext"; 
+import Chat from "./components/chat";
 import Dashboard from "./components/Dashboard";
+import { useAuth } from "./store/AuthContext";
+
 function App() {
+
   console.log("backend url", import.meta.env.VITE_BACKEND_URL);
   return (
     <ThemeProvider>
@@ -26,7 +29,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/dashboard" element={<Dashboard/>}/>
+                <Route path="/dashboard" element={<ProtectedRoute component={Dashboard}/>}/>
               </Routes>
             </div>
           </ChatProvider>
@@ -35,5 +38,19 @@ function App() {
     </ThemeProvider>
   );
 }
+
+const ProtectedRoute = ({ component: Component }) => {
+  const { loading, isLoggedIn } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />;
+  }
+
+  return <Component />;
+};
 
 export default App;
