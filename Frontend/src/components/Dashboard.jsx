@@ -9,12 +9,16 @@ import {
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 import { MdSummarize } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 
 
 const Dashboard = () => {
+  
   const { isDarkTheme } = useTheme();
   const { chats } = useContext(ChatContext);
-  const { token } = useAuth();
+  const { token ,isLoggedIn,loading} = useAuth();
   const [stats, setStats] = useState({
     totalChats: 0,
     totalMessages: 0,
@@ -24,30 +28,61 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Calculate dashboard statistics
-    const totalChats = chats.length;
-    const totalMessages = chats.reduce(
-      (sum, chat) => sum + (chat.messages?.length || 0),
-      0
-    );
-    const averageMessages = totalChats
-      ? (totalMessages / totalChats).toFixed(1)
-      : 0;
-    const lastChat = chats[0]?.startTime
-      ? new Date(chats[0].startTime).toLocaleDateString()
-      : "Never";
 
-    setStats({
-      totalChats,
-      totalMessages,
-      averageMessagesPerChat: averageMessages,
-      lastActive: lastChat,
-    });
-  }, [chats]);
+      
+     
+      console.log("Chats in dashboard:", chats);
+      if(chats.length>0){
+        const totalChats = chats.length;
+        const totalMessages = chats.reduce(
+          (sum, chat) => sum + (chat.messages?.length || 0),
+          0
+        );
+        const averageMessages = totalChats
+          ? (totalMessages / totalChats).toFixed(1)
+          : 0;
+        const lastChat = chats[0]?.startTime
+          ? new Date(chats[0].startTime).toLocaleDateString()
+          : "Never";
 
+        setStats({
+          totalChats,
+          totalMessages,
+          averageMessagesPerChat: averageMessages,
+          lastActive: lastChat,
+        });
+        
+      }
+  }, [chats,loading]);
+
+
+  const nevigate=useNavigate();
   const handleSummarize=(id)=>{
     console.log("Summarizing chat id: ",id);
-
+    const toastId=toast.loading("Summarizing chat...");
+    if(isLoggedIn){
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/summarize/${id}`,{
+        method:'GET',
+        headers:{
+          'Authorization':`Bearer ${token}`
+        }      
+      })
+      .then(res=>res.json())
+      .then(data=>{
+        console.log("Summary data:",data);
+        toast.success("Chat summarized successfully",{id:toastId});
+      })
+      .catch(err=>{
+        console.log("Error summarizing chat",err);
+        toast.error("Error in Summarizing chat,Please try after some time",{id:toastId});
+      })
+    }
+    else{
+      toast.error("Please Login to summarize chat",{id:toastId});
+      nevigate("/login");
+    }
   }
+
 
   return (
     <div

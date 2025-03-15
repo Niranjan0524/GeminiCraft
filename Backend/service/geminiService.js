@@ -1,4 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const conversation = require("../model/conversation");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -14,6 +15,11 @@ const TITLE_PROMPT={
   content:"generate a title for given below content of the user less than 5 words to make it heading of the conversation."
 }
 
+const SUMMARY_PROMPT={
+  role:"system",
+  content:"Summarize the below conversation in 50 - 100 words to make it a conclusion of the conversation so that user can have best experience, you can give it bullet points or make it look and feel good summary"
+}
+
 const createMessagesString = (messages) => {
   const messageList = [SYSTEM_PROMPT, ...messages];
   return messageList.map((message) => 
@@ -26,9 +32,7 @@ const generateContent = async (
   modelName = "gemini-2.0-flash",
   messages = []
 ) => {
-  console.log("Prompt:", prompt);
-  console.log("Model Name:", modelName);
-  console.log("Messages:", messages);
+
 
   const newPrompt = {
     role: "user",
@@ -56,16 +60,15 @@ const generateContent = async (
 
 
 const generateTitle=async(prompt,modelName)=>{
-  console.log("Prompt for Title:", prompt);
  
   const model = genAI.getGenerativeModel({ model: modelName });
     
   const titlePrompt=createMessagesString([TITLE_PROMPT,{role:"user",content:prompt}]);
-  console.log("Title Prompt:");
+  
   try{
-    console.log("hello");
+    
     const title=await model.generateContent(titlePrompt);
-    console.log("Title:",title.response.text());
+
     return title.response.text();
   }
   catch(error){
@@ -75,4 +78,9 @@ const generateTitle=async(prompt,modelName)=>{
    
 }
 
-module.exports = { generateContent ,generateTitle};
+const generateSummary=async(conversation,modelName="gemini-2.0-flash")=>{
+  const message="this is your summary ,enjoy";
+  return message;
+}
+
+module.exports = { generateContent ,generateTitle,generateSummary};

@@ -5,6 +5,8 @@ const {generateContent} = require('../service/geminiService');
 const Conversation = require('../model/conversation');
 const User =require('../model/user');
 const {generateTitle} = require('../service/geminiService');
+const {generateSummary} = require('../service/geminiService');
+
 
 exports.newConversation=async(req,res)=>{
 
@@ -161,4 +163,50 @@ exports.deleteConversation=async(req,res)=>{
   await user.save();
   
   res.status(204).json({message:"Conversation deleted successfully"});  
+}
+
+
+exports.summarizeConversation=async(req,res)=>{
+
+  console.log("Inside Summarize Conversation");
+  const id=req.params.id;
+  console.log("Id:",id);
+
+
+  const authHeader=req.headers.authorization;
+
+  if(authHeader==null){
+    return res.status(401).json({message:"Unauthorized:No token Provided"});
+  }
+
+  const token=authHeader.split(" ")[1];
+
+  if(token==null){
+    return res.status(401).json({message:"Unauthorized:No token"});
+  }
+
+
+  const {userId}=jwt.verify(token,process.env.JWT_SECRET);
+
+  const user= await User.findById(userId);
+
+  if(!user){
+    return res.status(404).json({message:"User not found"});
+  }
+   console.log("userId", userId);
+
+   const chat = user.conversations.filter((ids) => ids == id);
+
+   if(!chat){
+    return res.status(404).json({message:"Chat not found"});
+   }
+
+    const conversation= await Conversation.findById(id);
+    console.log("Conversation:",conversation);
+//call gemini service:
+
+   const summary=await generateSummary(conversation);
+    console.log("Summary:",summary);
+
+  return res.json({message:"summarized contend",summary:summary});
 }
