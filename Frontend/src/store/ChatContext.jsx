@@ -2,13 +2,35 @@ import { Children } from "react";
 import { useContext,useReducer } from "react";
 import { createContext } from "react";
 import {chatReducer} from './chatReducer';
+import { useEffect } from "react";
+import {useAuth} from './AuthContext';
+import toast from "react-hot-toast";
 
 export const ChatContext=createContext();
 
 export const ChatProvider=({children})=>{
 
-
+  const {token}=useAuth();
   const [chats,dispatch]=useReducer(chatReducer,[]);
+
+  useEffect(()=>{
+   
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        addAllChats(data.conversations);
+               
+      })
+      .catch((error) => {
+        console.error("Error fetching conversation:", error);
+        toast.error("Error fetching chat history");
+      });
+  },[token]);
   
   const addAllChats=(chats)=>{
     dispatch({

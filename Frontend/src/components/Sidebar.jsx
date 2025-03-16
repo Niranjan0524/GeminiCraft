@@ -70,6 +70,11 @@ function Sidebar() {
           return ;
         }
         else{
+          const timer = setTimeout(() => {
+            setIsVisible(true);
+          }, 500);
+
+      
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/conversation`,
           {
@@ -81,7 +86,8 @@ function Sidebar() {
         );
         const data = await response.json();
         console.log("Data from the server in sidebar:",data);
-        addAllChats(data.conversations);    
+        addAllChats(data.conversations);
+        clearTimeout(timer);    
       }
       } catch (error) {
         console.error("Error loading conversations:", error);
@@ -141,7 +147,7 @@ function Sidebar() {
           : "bg-gradient-to-b from-white-200 to-gray-800 text-gray-900"
       } h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
-      } transition-all duration-300 ease-in-out relative flex flex-col font-mono max-w-[38rem]`}
+      }  relative flex flex-col font-mono max-w-[38rem] transition-opacity duration-800 ease-in `}
     >
       <div className="flex items-center justify-between p-4 border-b border-gray-700">
         {!isCollapsed && (
@@ -230,6 +236,11 @@ function Sidebar() {
         >
           <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
           {!isCollapsed && <span>Dashboard</span>}
+          {!isCollapsed && (
+            <span className=" ml-auto px-3 py-1 text-xs font-bold text-white uppercase rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 shadow-md hover:shadow-lg transition-shadow ">
+              New
+            </span>
+          )}
         </button>
         {chats.length > 0 ? (
           <button
