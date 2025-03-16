@@ -12,7 +12,7 @@ import { AiFillDislike } from "react-icons/ai";
 import { TfiReload } from "react-icons/tfi";
 import { IoCopy } from "react-icons/io5";
 
-const UserReaction = ({content}) => {
+const UserReaction = ({content,role}) => {
   const [buttons] = useState([
     { id: 1, label: "Copy" },
     { id: 2, label: "Retry" },

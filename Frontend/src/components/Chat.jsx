@@ -34,9 +34,11 @@ const Chat = () => {
   useEffect(() => {
     if (id) {
       const chat = chats.find((chat) => chat._id === id);
+      console.log("Chat in chat component:", chat);
       if (chat) {
         setCurrentChat(chat);
         setMessages(chat.messages);
+
       } else {
         fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
           method: "GET",
@@ -224,7 +226,7 @@ const Chat = () => {
                       
                     </ReactMarkdown>
 
-                    {message.role !== "user" && <UserReaction />}
+                    {message.role !== "user" && <UserReaction role={message} />}
                   </div>
                 ))}
                 {loading && <SkeletalLoader />}
