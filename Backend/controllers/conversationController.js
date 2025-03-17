@@ -121,8 +121,7 @@ exports.getConversation=async(req,res)=>{
       return res.status(404).json({message:"user not found"});
     }
     const conversations_array=user.conversations;
-    
-    //array of objects:
+
     const finalConversations = await Promise.all(
       conversations_array.map((id) => conversation.findById(id))
     );
@@ -202,11 +201,23 @@ exports.summarizeConversation=async(req,res)=>{
    }
 
     const conversation= await Conversation.findById(id);
-    console.log("Conversation:",conversation);
-//call gemini service:
+    console.log("Conversation:");
 
    const summary=await generateSummary(conversation);
-    console.log("Summary:",summary);
+    console.log("Summary:");
+
+   user.summaries.push({
+      conversationId:id,
+      data:summary
+    });
+
+  try{
+    await user.save();
+  }
+  catch(err){
+    console.log("Error in saving summary:",err);
+    return res.status(500).json({message:"Error in saving summary"});
+  }
 
   return res.json({message:"summarized contend",summary:summary});
 }
