@@ -80,14 +80,10 @@ GeminiCraft/
 
 Contributions are welcome! Feel free to fork the repo and submit a PR.
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
 ## 📬 Contact
 
-- **LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
-- **GitHub**: [Your GitHub](https://github.com/your-username)
-- **Email**: your.email@example.com
+- **LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/niranjan05)
+- **GitHub**: [Your GitHub](https://github.com/Niranjan0524)
+
 
 
