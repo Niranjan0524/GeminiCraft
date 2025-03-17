@@ -10,11 +10,11 @@ export const ChatContext=createContext();
 
 export const ChatProvider=({children})=>{
 
-  const {token}=useAuth();
+  const {token,isLoggedIn}=useAuth();
   const [chats,dispatch]=useReducer(chatReducer,[]);
 
   useEffect(()=>{
-   
+   if(isLoggedIn){
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
       method: "GET",
       headers: {
@@ -30,6 +30,7 @@ export const ChatProvider=({children})=>{
         console.error("Error fetching conversation:", error);
         toast.error("Error fetching chat history");
       });
+    }
   },[token]);
   
   const addAllChats=(chats)=>{
