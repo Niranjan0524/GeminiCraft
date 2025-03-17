@@ -29,7 +29,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/dashboard" element={<ProtectedRoute component={Dashboard}/>}/>
+                <Route path="/dashboard" element={<Dashboard/>}/>
               </Routes>
             </div>
           </ChatProvider>
@@ -38,19 +38,5 @@ function App() {
     </ThemeProvider>
   );
 }
-
-const ProtectedRoute = ({ component: Component }) => {
-  const { loading, isLoggedIn } = useAuth();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
-
-  return <Component />;
-};
 
 export default App;
