@@ -80,6 +80,8 @@ const generateTitle=async(prompt,modelName)=>{
 
 const generateSummary=async(conversation,modelName="gemini-2.0-flash")=>{
   const message="this is your summary ,enjoy";
+
+  console.log("conversation in service point:",conversation);
   return message;
 }
 

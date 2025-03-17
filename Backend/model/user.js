@@ -1,5 +1,16 @@
 const mongoose=require('mongoose');
 
+const summarySchema = new mongoose.Schema({
+  conversationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Conversation",
+    required: true
+  },
+  data: {
+    type: String,
+    required: true
+  }
+});
 
 const userSchema=new mongoose.Schema({
     name:{type:String,required:true},
@@ -10,7 +21,8 @@ const userSchema=new mongoose.Schema({
     conversations:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Conversation"
-    }]
+    }],
+    summaries:[summarySchema]
 })
 
 
