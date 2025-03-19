@@ -10,10 +10,12 @@ export const ChatContext=createContext();
 
 export const ChatProvider=({children})=>{
 
-  const {token,isLoggedIn}=useAuth();
+  const {isLoggedIn}=useAuth();
+  const token = localStorage.getItem("token");
   const [chats,dispatch]=useReducer(chatReducer,[]);
 
   useEffect(()=>{
+    
    if(isLoggedIn){
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
       method: "GET",
@@ -23,8 +25,7 @@ export const ChatProvider=({children})=>{
     })
       .then((response) => response.json())
       .then((data) => {
-        addAllChats(data.conversations);
-               
+        addAllChats(data.conversations);               
       })
       .catch((error) => {
         console.error("Error fetching conversation:", error);

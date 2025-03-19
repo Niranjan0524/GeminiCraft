@@ -37,13 +37,13 @@ const {errorHandlers} = require("./controllers/errorHandler");
 
 const {conversationRouter} = require("./routers/conversationRouter"); 
 
-const limiter=rateLimit({
-  windowMs:1*60*1000,
-  max:10,
-  message:"Too many requests from this IP, please try again after an minute"
-})
+// const limiter=rateLimit({
+//   windowMs:1*60*1000,
+//   max:10,
+//   message:"Too many requests from this IP, please try again after an minute"
+// })
 
-app.use(limiter);
+// app.use(limiter);
 app.use(helmet());
 app.use(compression());
 app.use(express.json());

@@ -19,13 +19,11 @@ exports.newConversation=async(req,res)=>{
     const {email,userId}=jwt.verify(token,process.env.JWT_SECRET);
 
     try {
-      console.log("inside try");
+     
       const finaltitle = await generateTitle(prompt, model);
-      console.log("Final Title:",finaltitle);
+     
       const result = await generateContent(prompt, model);
 
-
-      console.log("Result:",result);
       const conversation1 = new Conversation({
         title: finaltitle,
         model: model,
@@ -47,12 +45,12 @@ exports.newConversation=async(req,res)=>{
 
       if(user){
         user.conversations.push(conv_id);
-        await user.save();
+        await user.save();  
       }
       else{
         return res.status(404).json({message:"user not found"});
       }
-      console.log("Conversation:",conversation1);
+      
       res.json({ conversation1 });
     } catch (error) {
       console.log("Error inside catch of controller:",error);
@@ -106,9 +104,9 @@ exports.getConversation=async(req,res)=>{
    return res.status(401).json({ message: "Unauthorized: No token provided" });
  }
 
- console.log("AuthHeader:",authHeader);
+
  const token = authHeader.split(" ")[1];
- console.log("Token:",token ,!token);
+
  if(token==null || !token) {
    return res.status(401).json({ message: "Unauthorized: No token provided" });
  }
@@ -125,11 +123,12 @@ exports.getConversation=async(req,res)=>{
     const finalConversations = await Promise.all(
       conversations_array.map((id) => conversation.findById(id))
     );
-    
+
     res.json({ conversations: finalConversations });
+
   }
   catch(err){
-    console.log(err);
+    console.log("Error in Server side :",err);
     return res.status(404).json({message:err.message});
   }
 
@@ -194,12 +193,16 @@ exports.summarizeConversation=async(req,res)=>{
   }
    console.log("userId", userId);
 
-   const chat = user.conversations.filter((ids) => ids == id);
+   const chat =  user.conversations.filter((ids) => ids == id);
 
    if(!chat){
     return res.status(404).json({message:"Chat not found"});
    }
 
+    const existanceOfSummary = user.summaries.find(summary => summary.conversationId == id);
+    if(existanceOfSummary){
+      return res.json({message:"Summary already exists",summary:existanceOfSummary});
+    }
     const conversation= await Conversation.findById(id);
     console.log("Conversation:");
 

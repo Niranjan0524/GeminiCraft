@@ -70,9 +70,7 @@ function Sidebar() {
           return ;
         }
         else{
-          const timer = setTimeout(() => {
-            setIsVisible(true);
-          }, 500);
+          
 
       
         const response = await fetch(
@@ -86,8 +84,7 @@ function Sidebar() {
         );
         const data = await response.json();
         console.log("Data from the server in sidebar:",data);
-        addAllChats(data.conversations);
-        clearTimeout(timer);    
+        addAllChats(data.conversations);   
       }
       } catch (error) {
         console.error("Error loading conversations:", error);
