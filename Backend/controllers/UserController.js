@@ -187,3 +187,39 @@ exports.getUser=async(req,res)=>{
  }
 }
 
+
+
+exports.getUserSummary=async(req,res)=>{
+
+  const authHeader=req.headers.authorization;
+  if(!authHeader){
+    res.status(401).json({
+      message:"Unauthorized:No token Provided"
+    })
+  }
+  
+  const token=authHeader.split(" ")[1];
+
+  if(!token){
+    res.status(401).json({
+      message:"Unauthorized:No token Provided"
+    })
+  }
+
+  const {userId}=jwt.verify(token,process.env.JWT_SECRET);
+
+  try{
+    const user=await User.findById(userId);
+
+    console.log("User in backend",user);
+    res.json({
+      summaries:user.summaries
+    })
+  }
+  catch(err){
+    console.log(err);
+    res.status(404).json({
+      message:err.message
+    })
+  }
+}

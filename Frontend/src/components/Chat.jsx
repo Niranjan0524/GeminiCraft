@@ -40,23 +40,22 @@ const Chat = () => {
         setMessages(chat.messages);
 
       } else {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            
-            addAllChats(data.conversations);
-            const chat = data.conversations.find((chat) => chat._id === id);
+        // fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation`, {
+        //   method: "GET",
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     addAllChats(data.conversations);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error fetching conversation:", error);
+        //   });
+            const chat = chats.find((chat) => chat._id === id);
             setCurrentChat(chat);
             setMessages(chat.messages);
-          })
-          .catch((error) => {
-            console.error("Error fetching conversation:", error);
-          });
       }
     } else {
       setCurrentChat({});

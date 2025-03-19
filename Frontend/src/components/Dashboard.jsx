@@ -2,15 +2,13 @@ import { useState, useEffect, useContext } from "react";
 import { ChatContext } from "../store/ChatContext";
 import { useTheme } from "../store/ThemeContext";
 import { useAuth } from "../store/AuthContext";
+import SummarizeChat from "./summarizeChat";
 import {
   ChatBubbleLeftRightIcon,
   UserIcon,
   ClockIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
-import { MdSummarize } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 
 
 
@@ -18,7 +16,7 @@ const Dashboard = () => {
   
   const { isDarkTheme } = useTheme();
   const { chats } = useContext(ChatContext);
-  const { token ,isLoggedIn,loading} = useAuth();
+  const { token ,isLoggedIn,loading,user} = useAuth();
   const [stats, setStats] = useState({
     totalChats: 0,
     totalMessages: 0,
@@ -27,10 +25,7 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    // Calculate dashboard statistics
 
-      
-     
       console.log("Chats in dashboard:", chats);
       if(chats.length>0){
         const totalChats = chats.length;
@@ -56,32 +51,7 @@ const Dashboard = () => {
   }, [chats,loading]);
 
 
-  const nevigate=useNavigate();
-  const handleSummarize=(id)=>{
-    console.log("Summarizing chat id: ",id);
-    const toastId=toast.loading("Summarizing chat...");
-    if(isLoggedIn){
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/summarize/${id}`,{
-        method:'GET',
-        headers:{
-          'Authorization':`Bearer ${token}`
-        }      
-      })
-      .then(res=>res.json())
-      .then(data=>{
-        console.log("Summary data:",data);
-        toast.success("Chat summarized successfully",{id:toastId});
-      })
-      .catch(err=>{
-        console.log("Error summarizing chat",err);
-        toast.error("Error in Summarizing chat,Please try after some time",{id:toastId});
-      })
-    }
-    else{
-      toast.error("Please Login to summarize chat",{id:toastId});
-      nevigate("/login");
-    }
-  }
+  
 
 
   return (
@@ -189,13 +159,7 @@ const Dashboard = () => {
                 </p>
               </div>
               <div className="flex items-center space-x-4">
-                <button className="border border-red-300 shadow-md rounded-lg p-6 relative px-6 py-2 text-lg font-bold text-grey bg-gradient-to-r from-grey-400 to-red-900 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl"
-                onClick={()=>{handleSummarize(chat._id)}}>
-                  <div className="flex">
-                    <MdSummarize className="h-6 w-6 mr-2" />
-                    Summarize 
-                  </div>
-                </button>
+              <SummarizeChat id={chat._id}/>
 
                 <span className="text-sm text-gray-400">
                   {chat.messages?.length || 0} messages

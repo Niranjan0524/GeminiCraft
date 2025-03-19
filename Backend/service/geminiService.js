@@ -26,6 +26,13 @@ const createMessagesString = (messages) => {
     `${message.role}:${message.content}`).join("\n");
   };
 
+const createMessagesString2 = (messages) => {
+  const messageList = [SUMMARY_PROMPT, ...messages];
+  return messageList
+    .map((message) => `${message.role}:${message.content}`)
+    .join("\n");
+};
+
 
 const generateContent = async (
   prompt,
@@ -79,9 +86,11 @@ const generateTitle=async(prompt,modelName)=>{
 }
 
 const generateSummary=async(conversation,modelName="gemini-2.0-flash")=>{
-  const message="this is your summary ,enjoy";
+  const message="This Feature is Currently In Development,Please try after some time";
 
-  console.log("conversation in service point:",conversation);
+  const finalPrompt=createMessagesString2([...conversation.messages]);
+  
+  
   return message;
 }
 

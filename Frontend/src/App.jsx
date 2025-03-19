@@ -7,9 +7,9 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { Toaster } from "react-hot-toast";
 import { ChatProvider } from "./store/ChatContext"; 
-import Chat from "./components/Chat";
+import Chat from "./components/chat";
 import Dashboard from "./components/Dashboard";
-import { useAuth } from "./store/AuthContext";
+
 
 function App() {
 
