@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { ChatContext } from "../store/ChatContext";
 import { useTheme } from "../store/ThemeContext";
 import { useAuth } from "../store/AuthContext";
-import SummarizeChat from "./SummarizeChat";
+import SummarizeChat from "./summarizeChat";
 import {
   ChatBubbleLeftRightIcon,
   UserIcon,
