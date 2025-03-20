@@ -17,6 +17,7 @@ import { FaToggleOn } from "react-icons/fa6";
 import { useTheme } from '../store/ThemeContext';
 import { useAuth } from '../store/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { MdDashboardCustomize } from "react-icons/md";
 
 function Sidebar() {
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -194,7 +195,7 @@ function Sidebar() {
               <Link
                 to={`/conversation/${chat._id}`}
                 className="flex items-center gap-2 px-2 py-3 rounded-lg hover:bg-gradient-to-r 
-              hover:from-gray-700 hover:to-gray-600 transition-colors duration-200 mb-1 flex-grow"
+              hover:from-gray-700 hover:to-gray-600 transition-colors duration-200 mb-1 flex-grow max-w-[15rem]"
               >
                 <ChatBubbleLeftRightIcon className="h-5 w-5 text-gray-400" />
                 {!isCollapsed && (
@@ -217,9 +218,7 @@ function Sidebar() {
 
       {/* Bottom Actions */}
       <div className="p-4 border-t border-gray-700 relative">
-        
         <div className="space-y-2">
-        
           <button
             className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
@@ -228,36 +227,37 @@ function Sidebar() {
             <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
             {!isCollapsed && <span>Settings</span>}
           </button>
-            {chats.length>0 ?
-             <div>
-          
-          <button
-            className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
+          {chats.length > 0 ? (
+            <div>
+              <button
+                className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
-            onClick={handleDashboard}
-          >
-            <Cog6ToothIcon className="h-5 w-5 text-gray-400" />
-            {!isCollapsed && <span>Dashboard</span>}
-            {!isCollapsed && (
-              <span className=" ml-auto px-3 py-1 text-xs font-bold text-white uppercase rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 shadow-md hover:shadow-lg transition-shadow ">
-                New
-              </span>
-            )}
-          </button>
-          
-            <button
-              className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
-            hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
-              onClick={handleLogout}
-            >
-              <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
+                onClick={handleDashboard}
+              >
+                
+                <MdDashboardCustomize className="h-5 w-5 text-gray-400" />
+                {!isCollapsed && <span>Dashboard</span>}
+                {!isCollapsed && (
+                  <span className=" ml-auto px-3 py-1 text-xs font-bold text-white uppercase rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 shadow-md hover:shadow-lg transition-shadow ">
+                    New
+                  </span>
+                )}
+              </button>
 
-              {!isCollapsed && <span>Logout</span>}
-            </button>
-          </div>:
-          <div> </div>
-          }
-          </div>
+              <button
+                className="flex items-center gap-2 w-full px-2 py-3 rounded-lg 
+            hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
+                onClick={handleLogout}
+              >
+                <ArrowLeftOnRectangleIcon className="h-5 w-5 text-gray-400" />
+
+                {!isCollapsed && <span>Logout</span>}
+              </button>
+            </div>
+          ) : (
+            <div> </div>
+          )}
+        </div>
       </div>
       {showSettings && (
         <div

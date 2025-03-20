@@ -5,9 +5,9 @@ const TitleComponent = ({ title,startTime }) => {
   
   return (
     <div className=" items-center justify-between w-full max-w-[15rem]">
-      <span className="truncate">{title}</span>
+      <div className="truncate max-w-[12rem]">{title}</div>
       <TimeParsing startTime={startTime} />
-      </div>
+    </div>
   );
 };
 
