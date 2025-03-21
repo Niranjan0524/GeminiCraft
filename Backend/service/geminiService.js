@@ -17,7 +17,7 @@ const TITLE_PROMPT={
 
 const SUMMARY_PROMPT={
   role:"system",
-  content:"Summarize the below conversation in 50 - 100 words to make it a conclusion of the conversation so that user can have best experience, you can give it bullet points or make it look and feel good summary"
+  content:"Summarize the following conversation between the system and the user. The summary should be structured with clear headings, key points, and a conclusion. Ensure that the key details and insights from the conversation are preserved. Format the output as follows:Introduction - A brief overview of the conversation.Key Discussion Points - A list of the main points discussed, categorized if necessary.Conclusion - A concise summary of the key takeaways and final thoughts.'  Here is the conversation':[Insert conversation here]"
 }
 
 const createMessagesString = (messages) => {
@@ -90,8 +90,19 @@ const generateSummary=async(conversation,modelName="gemini-2.0-flash")=>{
 
   const finalPrompt=createMessagesString2([...conversation.messages]);
   
+  const model=genAI.getGenerativeModel({model:modelName});
+
+  try{
+    const summary=await model.generateContent(finalPrompt);
+
+    return summary.response.text();
+  }
+  catch(err){
+    console.log("Error in generating summary",err);
+    return {error:err.message};
+  }
   
-  return message;
+ 
 }
 
 module.exports = { generateContent ,generateTitle,generateSummary};
