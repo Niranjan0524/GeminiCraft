@@ -222,5 +222,5 @@ exports.summarizeConversation=async(req,res)=>{
     return res.status(500).json({message:"Error in saving summary"});
   }
 
-  return res.json({message:"summarized contend",summary:summary});
+  return res.json({message:"summarized content",summary:summary});
 }

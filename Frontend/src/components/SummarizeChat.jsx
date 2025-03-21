@@ -49,11 +49,12 @@ const SummarizeChat = ({ id }) => {
           console.log("user Summary", data);
           toast.success("user Summary fetched", { id: toastId2 });
           setSummarizeStatus(true);
-          toast.success("Please Refresh The Page", )
+           toast.success("Please Refresh The Page");
         })
         .catch((err) => {
           console.log("Error getting user summary", err);
           toast.error("Error getting user summary", { id: toastId2 });
+         
         });
     } else {
       toast.error("Please Login to summarize chat", { id: toastId });
@@ -75,10 +76,9 @@ const SummarizeChat = ({ id }) => {
 
   return (
     <>
-      {user &&
-      user.summaries &&
-      user.summaries.find((conv) => conv.conversationId === id) &&
-      !summarizeStatus ? (
+      { !summarizeStatus && 
+      user.summaries.find((conv) => conv.conversationId === id) 
+      ? (
         <div>
           <button
             className="border border-red-300 shadow-md rounded-lg p-6 relative px-6 py-2 text-lg font-bold text-grey bg-gradient-to-r from-grey-400 to-red-900 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl"

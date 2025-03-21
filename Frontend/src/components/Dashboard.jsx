@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ChatContext } from "../store/ChatContext";
 import { useTheme } from "../store/ThemeContext";
-import { useAuth } from "../store/AuthContext";
+import { useAuth } from "../store/AuthContext"; 
 import SummarizeChat from "./SummarizeChat";
 import {
   ChatBubbleLeftRightIcon,
@@ -9,7 +9,7 @@ import {
   ClockIcon,
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
-
+import ReactMarkdown from "react-markdown";
 
 
 const Dashboard = () => {
