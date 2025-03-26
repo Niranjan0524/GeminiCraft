@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "helmet": "^8.0.0",
+    "openai": "^4.89.0",
     "tailwind-scrollbar": "^3.1.0"
   }
 }
