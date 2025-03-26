@@ -6,7 +6,7 @@ const Conversation = require('../model/conversation');
 const User =require('../model/user');
 const {generateTitle} = require('../service/geminiService');
 const {generateSummary} = require('../service/geminiService');
-
+const {newAPI}=require('../service/openAIService');
 
 exports.newConversation=async(req,res)=>{
 
@@ -224,3 +224,11 @@ exports.summarizeConversation=async(req,res)=>{
 
   return res.json({message:"summarized content",summary:summary});
 }
+
+
+exports.chatWithNewAPI = async (req, res) => {
+  const {prompt}=req.body;
+  console.log("Prompt in controller:",prompt);
+  const reply=await newAPI(prompt);
+  res.json({reply});
+};
