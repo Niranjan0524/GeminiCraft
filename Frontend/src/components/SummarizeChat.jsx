@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import SummaryView from "./SummaryView";
 
 const SummarizeChat = ({ id }) => {
+
+  console.log("SummarizeChat component rendered with id:", id);
   const { user, isLoggedIn, token } = useAuth();
   const navigate = useNavigate();
   const [summarizeStatus, setSummarizeStatus] = useState(false);
@@ -17,6 +19,8 @@ const SummarizeChat = ({ id }) => {
   const handleSummarize = (id) => {
     console.log("Summarizing chat id: ", id);
     const toastId = toast.loading("Summarizing chat...");
+
+
     if (isLoggedIn) {
       fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat/summarize/${id}`, {
         method: "GET",
@@ -77,7 +81,7 @@ const SummarizeChat = ({ id }) => {
   return (
     <>
       { !summarizeStatus && 
-      user.summaries.find((conv) => conv.conversationId === id) 
+      user?.summaries?.find((conv) => conv.conversationId === id) 
       ? (
         <div>
           <button
