@@ -126,12 +126,7 @@ exports.login=async(req,res)=>{
 
   res.json({
     message:"Logged in successfully",
-    user:{
-      name:user.name,
-      email:user.email,
-      userName:user.userName,
-      conversation:user.conversations
-    },
+    user:user,
     token
   })
 

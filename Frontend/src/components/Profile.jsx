@@ -17,7 +17,8 @@ const Profile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [error,setError]=useState("");
    
-    const user=JSON.parse(localStorage.getItem("user"))||{name:"User"};
+    // const user=JSON.parse(localStorage.getItem("user"))||{name:"User"};
+    const {user}=useAuth();
     const {chats}=useContext(ChatContext);
     
     console.log("user in profile section",user);   
@@ -58,7 +59,8 @@ const Profile = () => {
               if (data.success) {
                 setIsEditing(false);
                 setProfileData({ ...editedData });
-                localStorage.setItem("user",JSON.stringify(editedData));                    
+                localStorage.setItem("user",JSON.stringify(editedData));  
+                setUser(data.user);                  
               } else {
                 console.log(data.message);
                 setError(data.message);

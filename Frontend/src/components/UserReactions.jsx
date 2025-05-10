@@ -33,12 +33,14 @@ const handleIconClick = (icon) => {
     });
   }
 
-  const handleCopy = async (text, index) => {
-    handleIconClick('copy');  
+  const handleCopy = async (text) => {
+    setIconsState((prevState) => ({ ...prevState, copy: true })); 
     try {
       await navigator.clipboard.writeText(text);
-      setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000); // Reset after 2 seconds
+      
+      setTimeout(() => {
+        setIconsState((prevState) => ({ ...prevState, copy: false }));  
+      }, 2000);
     } catch (err) {
       console.error('Failed to copy text: ', err);
     }
