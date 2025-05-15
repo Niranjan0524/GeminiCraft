@@ -13,7 +13,7 @@ import Dashboard from "./components/Dashboard";
 
 function App() {
 
-  console.log("backend url", import.meta.env.VITE_BACKEND_URL);
+  
   return (
     <ThemeProvider>
       <BrowserRouter>
