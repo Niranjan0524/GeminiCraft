@@ -47,7 +47,7 @@ const Signup = () => {
                 navigate("/login");
               });            
         } catch (err) {
-            // setError(err.message);
+            setError(err.message);
             notify(err.message);
         }
     };

@@ -24,10 +24,10 @@ const Chat = () => {
   const [model, setModel] = useState("gemini-1.5-flash");
   const navigate = useNavigate();
   const { isDarkTheme } = useTheme();
-  const { token } = useAuth();
+  const { token, isLoggedIn } = useAuth();
 
   const notify = (message) => {
-    toast.error(message+" Please try again later.");
+    toast.error(message);
   };
   
 
@@ -76,6 +76,10 @@ const Chat = () => {
   };
 
   const handleSend = () => {
+    if(!isLoggedIn){
+      notify("Please login to continue");
+      return;
+    }
     if (input.trim() === "") return;
 
     setInput("");

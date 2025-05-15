@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import  { createContext, useState, useContext } from 'react';
 import { useEffect } from 'react';
 import {jwtDecode} from "jwt-decode";
 
@@ -23,6 +23,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(localStorage.getItem("user") || null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [loading,setLoading]=useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") || false
+  );
 
 
   useEffect(()=>{
@@ -47,18 +50,20 @@ export const AuthProvider = ({ children }) => {
        .then((data) => {
          console.log("data", data);
          setUser(data.user);
+          setIsLoggedIn(true);
          localStorage.setItem("user", JSON.stringify(data.user));
+         localStorage.setItem("isLoggedIn", true);
        })
        .catch((err) => {
+         setLoading(false);
+         notify("Error fetching user data");
          console.log("error", err);
        });
        setLoading(false);
     }
   },[]);
 
- const [isLoggedIn, setIsLoggedIn] = useState(
-   localStorage.getItem("isLoggedIn") || false
- );
+
   
 
 
