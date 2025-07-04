@@ -12,8 +12,6 @@ const {deleteConversation} = require("../controllers/conversationController");
 
 const {summarizeConversation} = require("../controllers/conversationController");
 
-const {chatWithNewAPI} = require("../controllers/conversationController");
-
 conversationRouter.post("/conversation", newConversation);
 
 //this router is for the updating the existing conversation:
@@ -25,6 +23,5 @@ conversationRouter.delete("/conversation/:id", deleteConversation);
 
 conversationRouter.get("/chat/summarize/:id", summarizeConversation);
 
-conversationRouter.get("/newapi/chat",chatWithNewAPI);
 
 exports.conversationRouter = conversationRouter;

@@ -6,7 +6,6 @@ const Conversation = require('../model/conversation');
 const User =require('../model/user');
 const {generateTitle} = require('../service/geminiService');
 const {generateSummary} = require('../service/geminiService');
-const {newAPI}=require('../service/openAIService');
 
 exports.newConversation=async(req,res)=>{
 
