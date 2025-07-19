@@ -20,14 +20,21 @@ import { useNavigate } from 'react-router-dom';
 import { MdDashboardCustomize } from "react-icons/md";
 
 function Sidebar() {
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [conversations, setConversations] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const { isDarkTheme, toggleTheme } = useTheme();
-    const [notification,setNotification] =useState("")
-    const {isLoggedIn,token,logout} = useAuth();
-    const navigate= useNavigate();
-  const {chats,addAllChats,addChat,deleteChat,deleteAllChats,updateChat}=useContext(ChatContext);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [conversations, setConversations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { isDarkTheme, toggleTheme } = useTheme();
+  const [notification, setNotification] = useState("");
+  const { isLoggedIn, token, logout } = useAuth();
+  const navigate = useNavigate();
+  const {
+    chats,
+    addAllChats,
+    addChat,
+    deleteChat,
+    deleteAllChats,
+    updateChat,
+  } = useContext(ChatContext);
 
   const showNotification = (message) => {
     setNotification(message);
@@ -36,10 +43,9 @@ function Sidebar() {
     }, 3000);
   };
 
-
   const handleDelete = (id) => {
-    console.log("Deleteing: ",id);
-    console.log("Token inside handleDelete:",token);
+    console.log("Deleteing: ", id);
+    console.log("Token inside handleDelete:", token);
     // showNotification("Chat Deleted");
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/conversation/${id}`, {
       method: "DELETE",
@@ -57,38 +63,51 @@ function Sidebar() {
       });
   };
 
+  // ...existing code...
   useEffect(() => {
-  
     const fetchConversations = async () => {
       try {
         setIsLoading(true);
-        console.log("Token inside fetchConversations:",token);
-        if(!token || token === null){
+        console.log("Token inside fetchConversations:", token);
+        if (!token || token === null) {
           console.log("Token not found");
-          deleteAllChats();        
+          deleteAllChats();
           setConversations([]);
-          
-          return ;
-        }
-        else{
-          
+          return;
+        } else {
+          const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/api/conversation`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
-      
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/conversation`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          // Check if the response is unauthorized (401)
+          if (response.status === 401) {
+            console.log("Token expired or invalid, logging out");
+            logout(); // Clear the invalid token
+            navigate("/login");
+            return;
           }
-        );
-        const data = await response.json();
-        console.log("Data from the server in sidebar:",data);
-        addAllChats(data.conversations);   
-      }
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log("Data from the server in sidebar:", data);
+          addAllChats(data.conversations);
+        }
       } catch (error) {
         console.error("Error loading conversations:", error);
+        // If it's a network error or token issue, clear conversations
+        if (error.message.includes("401") || error.message.includes("token")) {
+          logout();
+          navigate("/login");
+        }
         setConversations([]);
       } finally {
         setIsLoading(false);
@@ -96,7 +115,8 @@ function Sidebar() {
     };
 
     fetchConversations();
-  }, [token]); 
+  }, [token]);
+  // ...existing code...
 
   const [showSettings, setShowSettings] = useState(false);
 
@@ -104,38 +124,32 @@ function Sidebar() {
     toggleTheme();
   };
 
-
-  const handleProfile=()=>{
+  const handleProfile = () => {
     console.log("Profile clicked");
-    if(isLoggedIn){
+    if (isLoggedIn) {
       navigate("/profile");
-    }
-    else
-    {
+    } else {
       navigate("/login");
     }
-  }
+  };
 
-  const handleDashboard=()=>{
+  const handleDashboard = () => {
     console.log("Dashboard clicked");
-    if(isLoggedIn){
+    if (isLoggedIn) {
       navigate("/dashboard");
     }
-  }
+  };
 
-  const handleLogout=()=>{
+  const handleLogout = () => {
     console.log("Loggin Out");
-    const reply =window.confirm("Are you sure you want to logout?");
-    if(reply){
+    const reply = window.confirm("Are you sure you want to logout?");
+    if (reply) {
       logout();
       navigate("/login");
-    }
-    else{
+    } else {
       console.log("Cancelled");
-      
     }
-  }
-
+  };
 
   return (
     <div
@@ -234,7 +248,6 @@ function Sidebar() {
             hover:bg-gradient-to-r hover:from-gray-700 hover:to-gray-600 transition-colors duration-200"
                 onClick={handleDashboard}
               >
-                
                 <MdDashboardCustomize className="h-5 w-5 text-gray-400" />
                 {!isCollapsed && <span>Dashboard</span>}
                 {!isCollapsed && (
