@@ -30,7 +30,7 @@ const ChatHeader = ({ status }) => {
       className={`flex justify-between items-center font-mono p-4 ${
         isDarkTheme
           ? "bg-gray-800 text-white"
-          : "bg-white text-gray-800 "
+          : "bg-gray-200 text-gray-800 "
       }`}
     >
       <button

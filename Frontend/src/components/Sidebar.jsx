@@ -156,7 +156,7 @@ function Sidebar() {
       className={`${
         isDarkTheme
           ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white"
-          : "bg-gradient-to-b from-white-200 to-gray-800 text-gray-900"
+          : "bg-gradient-to-b from-gray-200 to-gray-300 text-gray-900"
       } h-[100.3vh] ${
         isCollapsed ? "w-16" : "w-120"
       }  relative flex flex-col font-mono max-w-[38rem] transition-opacity duration-800 ease-in `}
@@ -281,7 +281,7 @@ function Sidebar() {
           } rounded-lg shadow-lg p-4 w-48`}
         >
           <ul className="space-y-2">
-            <li
+            {/* <li
               className={`${
                 isDarkTheme ? "hover:bg-gray-700" : "hover:bg-gray-200"
               } p-2 rounded`}
@@ -296,7 +296,7 @@ function Sidebar() {
                   )}
                 </div>
               </div>
-            </li>
+            </li> */}
 
             <li
               className={`${

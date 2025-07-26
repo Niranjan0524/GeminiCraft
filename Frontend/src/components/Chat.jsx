@@ -156,7 +156,7 @@ const Chat = () => {
         className={`flex flex-col h-[90vh] ${
           isDarkTheme
             ? "bg-gradient-to-b from-gray-800 to-gray-900 text-white"
-            : " text-gray-900"
+            : "bg-gradient-to-b from-gray-200 to-gray-400 text-gray-900"
         } font-mono items-center justify-center`}
       >
         <div className="flex flex-col w-full max-w-3xl h-full">
@@ -226,7 +226,6 @@ const Chat = () => {
                       }}
                     >
                       {message.content}
-                      
                     </ReactMarkdown>
 
                     {message.role !== "user" && <UserReaction role={message} />}

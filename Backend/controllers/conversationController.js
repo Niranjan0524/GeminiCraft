@@ -206,7 +206,7 @@ exports.summarizeConversation=async(req,res)=>{
     console.log("Conversation:");
 
    const summary=await generateSummary(conversation);
-    console.log("Summary:");
+    
 
    user.summaries.push({
       conversationId:id,
