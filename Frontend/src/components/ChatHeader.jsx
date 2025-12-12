@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../store/ThemeContext';
 import { useAuth } from '../store/AuthContext';
 import toast from 'react-hot-toast';
+import ReactMarkdown from 'react-markdown';
 
 const ChatHeader = ({ status }) => {
   const { isDarkTheme } = useTheme();
@@ -42,7 +43,10 @@ const ChatHeader = ({ status }) => {
       >
         Open Modal
       </button>
-      <h1 className="text-xl font-semibold">{status}</h1>
+      <h1 className="text-xl font-semibold"><ReactMarkdown
+                            >
+                            {status}
+                          </ReactMarkdown></h1>
       <div className="flex items-center gap-4">
         {isLoggedIn ? (
           <>

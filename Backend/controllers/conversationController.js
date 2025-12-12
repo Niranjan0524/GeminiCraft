@@ -18,9 +18,9 @@ exports.newConversation=async(req,res)=>{
     const {email,userId}=jwt.verify(token,process.env.JWT_SECRET);
 
     try {
-     
+      console.log("Prompt received in controller:", prompt);  
       const finaltitle = await generateTitle(prompt, model);
-     
+      console.log("Generated Title:", finaltitle);
       const result = await generateContent(prompt, model);
 
       const conversation1 = new Conversation({

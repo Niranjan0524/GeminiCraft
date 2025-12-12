@@ -10,7 +10,7 @@ import {
   DocumentTextIcon,
 } from "@heroicons/react/24/outline";
 import ReactMarkdown from "react-markdown";
-
+import { IoChevronBackCircle } from "react-icons/io5";
 
 const Dashboard = () => {
   
@@ -64,6 +64,7 @@ const Dashboard = () => {
     >
       {/* Dashboard Header */}
       <div className="mb-8">
+        <h3 className="text-center cursor-pointer " onClick={() => window.history.back()}> <IoChevronBackCircle className="inline-block mr-2" /> Go Back</h3>
         <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-500 to-red-500 bg-clip-text text-transparent">
           Dashboard Overview
         </h1>
@@ -153,7 +154,11 @@ const Dashboard = () => {
               } p-4 rounded-lg shadow flex items-center justify-between`}
             >
               <div>
-                <h3 className="font-medium">{chat.title}</h3>
+                <h3 className="font-medium">
+                  <ReactMarkdown>
+                    {chat.title || "Untitled Conversation"}
+                  </ReactMarkdown>
+                </h3>
                 <p className="text-sm text-gray-400">
                   {new Date(chat.startTime).toLocaleDateString()}
                 </p>

@@ -41,26 +41,26 @@ const SummarizeChat = ({ id }) => {
             id: toastId,
           });
         });
-      // toast.success("Chat summarized successfully", { id: toastId });
-      // const toastId2 = toast.loading("Getting user summary...");
-      // fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/summary`, {
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     console.log("user Summary", data);
-      //     toast.success("user Summary fetched", { id: toastId2 });
-      //     setSummarizeStatus(true);
-      //     toast.success("Please Refresh The Page");
-      //   })
-      //   .catch((err) => {
-      //     console.log("Error getting user summary", err);
-      //     toast.error("Error getting user summary", { id: toastId2 });
+      toast.success("Chat summarized successfully", { id: toastId });
+      const toastId2 = toast.loading("Getting user summary...");
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/summary`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("user Summary", data);
+          toast.success("user Summary fetched", { id: toastId2 });
+          setSummarizeStatus(true);
+          toast.success("Please Refresh The Page");
+        })
+        .catch((err) => {
+          console.log("Error getting user summary", err);
+          toast.error("Error getting user summary", { id: toastId2 });
          
-      //   });
+        });
     } else {
       toast.error("Please Login to summarize chat", { id: toastId });
       navigate("/login");

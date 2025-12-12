@@ -177,16 +177,26 @@ const Chat = () => {
                       onKeyPress={(e) => e.key === "Enter" && handleSend()}
                     />
                     <select
-                      className="ml-2 p-2 min-w-[100px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-pink-500"
+                      className="ml-2 p-2 min-w-[150px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-red-500 transition-transform transform hover:scale-106 shadow-lg"
                       onChange={handleModelChange}
+                      value={model}
                     >
-                      <option className="ml-2 p-3" value="gemini-1.5-flash">
+                      <option
+                        className="ml-2 p-3"
+                        value="gemini-1.5-flash-latest"
+                      >
                         gemini-1.5-flash
                       </option>
-                      <option className="ml-2 p-3" value="gemini-1.5-flash-8B">
+                      <option
+                        className="ml-2 p-3"
+                        value="gemini-1.5-flash-8b-latest"
+                      >
                         gemini-1.5-flash-8B
                       </option>
-                      <option className="ml-2 p-3" value="gemini-1.5-pro">
+                      <option
+                        className="ml-2 p-3"
+                        value="gemini-1.5-pro-latest"
+                      >
                         gemini-1.5-pro
                       </option>
                     </select>
@@ -246,14 +256,21 @@ const Chat = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSend()}
                 />
-                <select className="ml-2 p-2 min-w-[150px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-red-500 transition-transform transform hover:scale-106 shadow-lg">
-                  <option className="ml-2 p-3" value="gemini-1.5-flash">
+                <select
+                  className="ml-2 p-2 min-w-[150px] bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-500 hover:ring-2 hover:ring-red-500 transition-transform transform hover:scale-106 shadow-lg"
+                  onChange={handleModelChange}
+                  value={model}
+                >
+                  <option className="ml-2 p-3" value="gemini-1.5-flash-latest">
                     gemini-1.5-flash
                   </option>
-                  <option className="ml-2 p-3" value="gemini-1.5-flash-8B">
+                  <option
+                    className="ml-2 p-3"
+                    value="gemini-1.5-flash-8b-latest"
+                  >
                     gemini-1.5-flash-8B
                   </option>
-                  <option className="ml-2 p-3" value="gemini-1.5-pro">
+                  <option className="ml-2 p-3" value="gemini-1.5-pro-latest">
                     gemini-1.5-pro
                   </option>
                 </select>

@@ -36,11 +36,9 @@ const createMessagesString2 = (messages) => {
 
 const generateContent = async (
   prompt,
-  modelName = "gemini-2.0-flash",
+  modelName = "gemini-2.5-flash",
   messages = []
 ) => {
-
-
   const newPrompt = {
     role: "user",
     content: prompt,
@@ -52,7 +50,7 @@ const generateContent = async (
     newPrompt,
   ]);
 
-  const model = genAI.getGenerativeModel({ model: modelName });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   try {
     const result = await model.generateContent(finalPrompt);
@@ -68,7 +66,9 @@ const generateContent = async (
 
 const generateTitle=async(prompt,modelName)=>{
  
-  const model = genAI.getGenerativeModel({ model: modelName });
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash",
+  });
     
   const titlePrompt=createMessagesString([TITLE_PROMPT,{role:"user",content:prompt}]);
   
@@ -85,24 +85,27 @@ const generateTitle=async(prompt,modelName)=>{
    
 }
 
-const generateSummary=async(conversation,modelName="gemini-2.0-flash")=>{
-  const message="This Feature is Currently In Development,Please try after some time";
+const generateSummary = async (
+  conversation,
+  modelName = "gemini-2.5-flash"
+) => {
+  const message =
+    "This Feature is Currently In Development,Please try after some time";
 
-  const finalPrompt=createMessagesString2([...conversation.messages]);
-  
-  const model=genAI.getGenerativeModel({model:modelName});
+  const finalPrompt = createMessagesString2([...conversation.messages]);
 
-  try{
-    const summary=await model.generateContent(finalPrompt);
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash",
+  });
+
+  try {
+    const summary = await model.generateContent(finalPrompt);
 
     return summary.response.text();
+  } catch (err) {
+    console.log("Error in generating summary", err);
+    return { error: err.message };
   }
-  catch(err){
-    console.log("Error in generating summary",err);
-    return {error:err.message};
-  }
-  
- 
-}
+};
 
 module.exports = { generateContent ,generateTitle,generateSummary};
